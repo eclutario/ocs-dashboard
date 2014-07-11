@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+
+  <ModulePrefs
+      title="__MSG_default_title__"
+      author="Google Engineering"
+      author_affiliation="Google Inc."
+      author_email="visualization.api+motionchart@gmail.com"
+      description="__MSG_description__"
+      screenshot="https://www.google.com/ig/modules/motionchart.png"
+      thumbnail="https://www.google.com/ig/modules/motionchart-thm.png"
+      height="350">
+    <Require feature="settitle" />
+    <Require feature="idi" />
+    <Require feature="locked-domain" />
+    <Require feature="setprefs" />
+    <Locale messages="https://www.google.com/ig/modules/motionchart_content/en_ALL.xml" />
+    <Locale lang="ar" messages="https://www.google.com/ig/modules/motionchart_content/ar_ALL.xml" language_direction="rtl" />
+    <Locale lang="bg" messages="https://www.google.com/ig/modules/motionchart_content/bg_ALL.xml" />
+    <Locale lang="ca" messages="https://www.google.com/ig/modules/motionchart_content/ca_ALL.xml" />
+    <Locale lang="cs" messages="https://www.google.com/ig/modules/motionchart_content/cs_ALL.xml" />
+    <Locale lang="da" messages="https://www.google.com/ig/modules/motionchart_content/da_ALL.xml" />
+    <Locale lang="de" messages="https://www.google.com/ig/modules/motionchart_content/de_ALL.xml" />
+    <Locale lang="el" messages="https://www.google.com/ig/modules/motionchart_content/el_ALL.xml" />
+    <Locale lang="en-GB" messages="https://www.google.com/ig/modules/motionchart_content/en_GB.xml" />
+    <Locale lang="es" messages="https://www.google.com/ig/modules/motionchart_content/es_ALL.xml" />
+    <Locale lang="et" messages="https://www.google.com/ig/modules/motionchart_content/et_ALL.xml" />
+    <Locale lang="fi" messages="https://www.google.com/ig/modules/motionchart_content/fi_ALL.xml" />
+    <Locale lang="fr" messages="https://www.google.com/ig/modules/motionchart_content/fr_ALL.xml" />
+    <Locale lang="hi" messages="https://www.google.com/ig/modules/motionchart_content/hi_ALL.xml" />
+    <Locale lang="hr" messages="https://www.google.com/ig/modules/motionchart_content/hr_ALL.xml" />
+    <Locale lang="hu" messages="https://www.google.com/ig/modules/motionchart_content/hu_ALL.xml" />
+    <Locale lang="hy" messages="https://www.google.com/ig/modules/motionchart_content/hy_ALL.xml" />
+    <Locale lang="id" messages="https://www.google.com/ig/modules/motionchart_content/id_ALL.xml" />
+    <Locale lang="is" messages="https://www.google.com/ig/modules/motionchart_content/is_ALL.xml" />
+    <Locale lang="it" messages="https://www.google.com/ig/modules/motionchart_content/it_ALL.xml" />
+    <Locale lang="iw" messages="https://www.google.com/ig/modules/motionchart_content/iw_ALL.xml" language_direction="rtl" />
+    <Locale lang="ja" messages="https://www.google.com/ig/modules/motionchart_content/ja_ALL.xml" />
+    <Locale lang="ko" messages="https://www.google.com/ig/modules/motionchart_content/ko_ALL.xml" />
+    <Locale lang="lt" messages="https://www.google.com/ig/modules/motionchart_content/lt_ALL.xml" />
+    <Locale lang="lv" messages="https://www.google.com/ig/modules/motionchart_content/lv_ALL.xml" />
+    <Locale lang="ms" messages="https://www.google.com/ig/modules/motionchart_content/ms_ALL.xml" />
+    <Locale lang="nl" messages="https://www.google.com/ig/modules/motionchart_content/nl_ALL.xml" />
+    <Locale lang="no" messages="https://www.google.com/ig/modules/motionchart_content/no_ALL.xml" />
+    <Locale lang="pl" messages="https://www.google.com/ig/modules/motionchart_content/pl_ALL.xml" />
+    <Locale lang="pt-BR" messages="https://www.google.com/ig/modules/motionchart_content/pt_BR.xml" />
+    <Locale lang="pt-PT" messages="https://www.google.com/ig/modules/motionchart_content/pt_PT.xml" />
+    <Locale lang="ro" messages="https://www.google.com/ig/modules/motionchart_content/ro_ALL.xml" />
+    <Locale lang="ru" messages="https://www.google.com/ig/modules/motionchart_content/ru_ALL.xml" />
+    <Locale lang="sl" messages="https://www.google.com/ig/modules/motionchart_content/sl_ALL.xml" />
+    <Locale lang="sk" messages="https://www.google.com/ig/modules/motionchart_content/sk_ALL.xml" />
+    <Locale lang="sr" messages="https://www.google.com/ig/modules/motionchart_content/sr_ALL.xml" />
+    <Locale lang="sv" messages="https://www.google.com/ig/modules/motionchart_content/sv_ALL.xml" />
+    <Locale lang="th" messages="https://www.google.com/ig/modules/motionchart_content/th_ALL.xml" />
+    <Locale lang="tl" messages="https://www.google.com/ig/modules/motionchart_content/tl_ALL.xml" />
+    <Locale lang="tr" messages="https://www.google.com/ig/modules/motionchart_content/tr_ALL.xml" />
+    <Locale lang="uk" messages="https://www.google.com/ig/modules/motionchart_content/uk_ALL.xml" />
+    <Locale lang="vi" messages="https://www.google.com/ig/modules/motionchart_content/vi_ALL.xml" />
+    <Locale lang="zh-CN" messages="https://www.google.com/ig/modules/motionchart_content/zh_CN.xml" />
+    <Locale lang="zh-TW" messages="https://www.google.com/ig/modules/motionchart_content/zh_TW.xml" />
+  </ModulePrefs>
+
+  <UserPref name="_table_query_url" display_name="__MSG_tablequeryurl__" required="true" />
+  <UserPref name="title" display_name="__MSG_title__" required="false" />
+  <UserPref name="initialstate" display_name="__MSG_initialstate__" required="false" />
+  <UserPref name="_table_query_refresh_interval" display_name="__MSG_tablequeryrefreshinterval__" default_value="300" datatype="enum" required="false">
+    <EnumValue value="0" display_value="__MSG_never__" />
+    <EnumValue value="60" display_value="1" />
+    <EnumValue value="300" display_value="5" />
+    <EnumValue value="1800" display_value="30" />
+  </UserPref>
+
+  <Content type="html"><![CDATA[
+  <table cellspacing="6" cellpadding="0" border="0">
+    <tr>
+      <td><div id="flashcontent"><img src="https://www.google.com/ig/images/spinner.gif" /></div></td>
+    </tr>
+  </table>
+   
+  <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+  <script type="text/javascript">
+var prefs = new _IG_Prefs();
+// The gviz helper for gadget specific functionality.
+var gadgetHelper = null;
+// The motionchart visualization
+var motionchart;
+
+_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+function loadVisualizationAPI() {
+  google.load('visualization', '1', {'packages': ['motionchart']});
+  google.setOnLoadCallback(initialize);
+};
+
+/**
+ * Initialize the gadget after the gadget was loaded.
+ */
+function initialize() {
+  var title = prefs.getString('title');
+  if (title != '') {
+    _IG_SetTitle(title);
+  }
+  gadgetHelper = new google.visualization.GadgetHelper();
+  var query = gadgetHelper.createQueryFromPrefs(prefs);
+  var container = document.getElementById('flashcontent');
+  motionchart = new google.visualization.MotionChart(container);
+  query.send(responseHandler);
+}
+
+/**
+ * Handles the query response.
+ * Draw the chart with the data received from the query.
+ * @param {google.visualization.QueryResponse} resp The query response
+ */
+function responseHandler(resp) {
+  if (!gadgetHelper.validateResponse(resp)) {
+    // Default error handling was done, just leave.
+    return;
+  };
+  var data = resp.getDataTable();
+  var options = [];
+  // Taken from the table element container.
+  var spacing = 6;
+  options['height'] = document.body.clientHeight - (spacing * 2);
+  options['width'] = document.body.clientWidth - (spacing * 2);
+  options['state'] = prefs.getString('initialstate');
+  motionchart.draw(data, options);
+};
+   </script>
+  ]]>
+  </Content>
+</Module>
