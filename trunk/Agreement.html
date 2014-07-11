@@ -1,0 +1,102 @@
+<!--
+You are free to copy and use this sample in accordance with the terms of the
+Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" href="Agreement.css">
+    <title>
+      Agreement Report
+    </title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1.1', {packages: ['controls']});
+    </script>
+    <script type="text/javascript">
+	
+      function drawVisualization() {
+        // Prepare the data
+      var query = new google.visualization.Query(
+          'http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
+    
+      // Apply query language.
+      query.setQuery("select A,B,C,D,E");
+
+	  
+      // Send the query with a callback function.
+      query.send(handleQueryResponse);
+      
+      }
+      
+    function handleQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+    
+      var data = response.getDataTable();
+
+		var data = response.getDataTable();
+		
+		var table = new google.visualization.ChartWrapper({
+			chartType: 'BubbleChart',
+			containerId: 'table_div',
+			dataTable: data,
+			options: {
+				title: 'Project Execution Time vs. Spend',
+				hAxis: {title: '% Spent'},
+				vAxis: {title: '% Time'},
+				height: 600,
+				width: 1200,
+				backgroundColor: 'transparent',
+				bubble: {textStyle: {color: 'transparent'},stroke: "transparent", opacity: 0.4},
+			}
+		});
+		table.draw();
+		
+		var hackChart = new google.visualization.ChartWrapper({
+			chartType: 'LineChart',
+			containerId: 'hack_chart_div',
+			dataTable: [['x', 'y'],[0, 0], [1, 1]],
+			options: {
+				height: 600,
+				width: 1200,
+				hAxis: {
+					textPosition: 'none',
+					gridlines: {
+						count: 0
+					},
+					baselineColor: 'none'
+				},
+				vAxis: {
+					textPosition: 'none',
+					gridlines: {
+						count: 0
+					},
+					baselineColor: 'none'
+				},
+				colors: ['blue'],
+				pointSize: 0,
+				lineWidth: 1,
+				enableInteractivity: false,
+				legend: {
+					position: 'none'
+				}
+			}
+		});
+		hackChart.draw();
+				  
+	}
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+	<div id="chart_container">
+		<div id="table_div"></div>
+		<div id="hack_chart_div"></div>
+	</div>
+  </body>
+</html>
