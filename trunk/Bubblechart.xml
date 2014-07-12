@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="Google Spredsheet Sample Gadget"
+                 description="OCS Bubble Report"
+                 author="Victor Alarcon" author_email="v.alarcon@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 height="400">
+        <Require feature="dynamic-height"/>
+    </ModulePrefs>
+    <Content type="html"><![CDATA[
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load('visualization', '1', {packages: ['corechart']});
+        </script>
+        <script type="text/javascript">
+            gadgets.util.registerOnLoadHandler(querySpreadsheet);
+
+            function querySpreadsheet() {
+                var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
+                 query.setQuery("select A,B,C,D,E");
+				// Send the query with a callback function.				
+                query.send(handleQueryResponse);
+            }
+    
+            function handleQueryResponse(response) {
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                }
+                var data = response.getDataTable();
+				
+				var bubbleChart = new google.visualization.ChartWrapper({
+							chartType: 'BubbleChart',
+							containerId: 'visualization',
+							dataTable: data,
+							options: {
+								title: 'Project Execution Time vs. Spend',
+								hAxis: {title: '% Spent'},
+								vAxis: {title: '% Time'},
+								height: 600,
+								width: 1200,
+								backgroundColor: 'transparent',
+								bubble: {textStyle: {color: 'transparent'},stroke: "transparent", opacity: 0.4},
+							}
+					});
+				bubbleChart.draw();
+            }      
+        </script>
+        <body style="font-family: Arial;border: 0 none;">
+            <div id="visualization" style="height: 400px; width: 400px;"></div>
+        </body>
+  ]]>
+    </Content>
+</Module>
