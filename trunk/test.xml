@@ -13,6 +13,19 @@
 	<UserPref name="title" display_name="Title" required="false" />
 	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
 	<Content type="html"><![CDATA[
+		<style>
+			#chart_container {
+				position: relative;
+			}
+			#table_div {
+				z-index: 1;
+			}
+			#hack_chart_div {
+				position: absolute;
+				top: 0px;
+				z-index: 0;
+			}
+		</style> 
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
 			var prefs = new _IG_Prefs();
@@ -61,10 +74,44 @@
 							}
 					});
 				bubbleChart.draw();
+				var hackChart = new google.visualization.ChartWrapper({
+					chartType: 'LineChart',
+					containerId: 'hack_chart_div',
+					dataTable: [['x', 'y'],[0, 0], [1, 1]],
+					options: {
+						height: 600,
+						width: 1200,
+						hAxis: {
+							textPosition: 'none',
+							gridlines: {
+								count: 0
+							},
+							baselineColor: 'none'
+						},
+						vAxis: {
+							textPosition: 'none',
+							gridlines: {
+								count: 0
+							},
+							baselineColor: 'none'
+						},
+						colors: ['blue'],
+						pointSize: 0,
+						lineWidth: 1,
+						enableInteractivity: false,
+						legend: {
+							position: 'none'
+						}
+					}
+				});
+				hackChart.draw();
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
-            <div id="visualization" style="height: 400px; width: 400px;"></div>
+			<div id="chart_container">
+				<div id="visualization"></div>
+				<div id="hack_chart_div"></div>
+			</div>
         </body>
   ]]>
     </Content>
