@@ -5,7 +5,7 @@
                  author="Victor Alarcon" author_email="v.alarcon@irri.org"
                  author_link="www.irri.org"
                  title_url="www.irri.org"
-                 height="400">
+                 >
         <Require feature="dynamic-height"/>
     </ModulePrefs>
     <Content type="html"><![CDATA[
