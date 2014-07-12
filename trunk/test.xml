@@ -8,6 +8,7 @@
                  >
         <Require feature="dynamic-height"/>
      <Require feature="settitle" />
+	 <Require feature="setprefs" />
 	</ModulePrefs>
 	<UserPref name="title" display_name="Title" required="false" />
 	<Content type="html"><![CDATA[
