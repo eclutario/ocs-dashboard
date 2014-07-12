@@ -7,7 +7,8 @@
                  title_url="www.irri.org"
                  >
         <Require feature="dynamic-height"/>
-    </ModulePrefs>
+     <Require feature="settitle" />
+	 </ModulePrefs>
     <Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
