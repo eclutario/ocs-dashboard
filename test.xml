@@ -9,7 +9,7 @@
         <Require feature="dynamic-height"/>
      <Require feature="settitle" />
 	</ModulePrefs>
-	<UserPref name="title" display_name="__MSG_title__" required="false" />
+	<UserPref name="title" display_name="Title" required="false" />
 	<Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
