@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-    <ModulePrefs title="Google Spredsheet Sample Gadget"
-                 description="OCS Bubble Report"
+    <ModulePrefs title="Agreement Report"
+                 description="Agreement Report"
                  author="Victor Alarcon" author_email="v.alarcon@irri.org"
                  author_link="www.irri.org"
                  title_url="www.irri.org"
