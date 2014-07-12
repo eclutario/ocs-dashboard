@@ -8,19 +8,33 @@
                  >
         <Require feature="dynamic-height"/>
      <Require feature="settitle" />
+	 <Require feature="setprefs" />
 	</ModulePrefs>
 	<UserPref name="title" display_name="Title" required="false" />
+	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
 	<Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
-            google.load('visualization', '1', {packages: ['corechart']});
-        </script>
-        <script type="text/javascript">
-            gadgets.util.registerOnLoadHandler(querySpreadsheet);
+			var prefs = new _IG_Prefs();
+			// The gviz helper for gadget specific functionality.
+			var gadgetHelper = null;
+			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+			function loadVisualizationAPI() {
+			  google.load('visualization', '1', {'packages': ['corechart']});
+			  google.setOnLoadCallback(querySpreadsheet);
+			};
+			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
 
             function querySpreadsheet() {
-                var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
-                 query.setQuery("select A,B,C,D,E");
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				gadgetHelper = new google.visualization.GadgetHelper();
+				var query = gadgetHelper.createQueryFromPrefs(prefs);
+				//var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
+                query.setQuery("select A,B,C,D,E");
 				// Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
