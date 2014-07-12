@@ -7,10 +7,7 @@
                  title_url="www.irri.org"
                  >
         <Require feature="dynamic-height"/>
-		<Require feature="settitle" />
-	 </ModulePrefs>
-	 <UserPref name="title" display_name="Title" required="false" />
-
+    </ModulePrefs>
     <Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -20,12 +17,8 @@
             gadgets.util.registerOnLoadHandler(querySpreadsheet);
 
             function querySpreadsheet() {
-				var title = prefs.getString('title');
-				if (title != '') {
-					_IG_SetTitle(title);
-				}
-				var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
-                query.setQuery("select A,B,C,D,E");
+                var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
+                 query.setQuery("select A,B,C,D,E");
 				// Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
