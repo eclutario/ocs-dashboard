@@ -25,8 +25,12 @@
 			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
 
             function querySpreadsheet() {
-                var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
-                 query.setQuery("select A,B,C,D,E");
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
+                query.setQuery("select A,B,C,D,E");
 				// Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
