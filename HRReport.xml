@@ -33,7 +33,7 @@
 				gadgetHelper = new google.visualization.GadgetHelper();
 				//var query = gadgetHelper.createQueryFromPrefs(prefs);
 				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=17SuMa6sTBZzuBK2L7yO78zL3mws3ViVf88SqN1r9WqE&gid=1675004778&pub=1");
-                query.setQuery("select H,I,M,N, count(A) where H is not null and H <> '99999' and N is not null group by H,I,M,N label count(A) ''");
+                query.setQuery("select H,I,M,N, count(A) where H is not null and H <> '99999' and N is not null group by H,I,M,N label count(A) 'Total'");
 	  // Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
