@@ -146,7 +146,7 @@
 					// picker will drive both charts.
 					bind(dutyPostPicker, divisionPicker).
 					bind(divisionPicker, ouPicker).
-					bind([nationalityPicker, categoryPicker], [pie,table]).
+					bind([nationalityPicker, categoryPicker], [pie]).
 					// Draw the entire dashboard.
 					draw(data);
 					
@@ -180,7 +180,6 @@
 				<tr>
 				  <td >
 					<div id="chart1"></div>
-					<div id="chart2"></div>
 				  </td>
 				</tr>
 			  </table>
