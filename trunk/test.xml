@@ -112,22 +112,22 @@
 					}
 				  }
 				});				
-				// Define a Pie chart
-				//var pie = new google.visualization.ChartWrapper({
-				//  'chartType': 'PieChart',
-				//  'containerId': 'chart1',
-				//  'options': {
-				//	'width': 400,
-				//	'height': 400,
-				//	'legend': 'none',
-				//	'title': 'Staff Count',
-				//	'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
-				//	'pieSliceText': 'label'
-				//  },
+				 Define a Pie chart
+				var pie = new google.visualization.ChartWrapper({
+				  'chartType': 'PieChart',
+				  'containerId': 'chart2',
+				  'options': {
+					'width': 400,
+					'height': 400,
+					'legend': 'none',
+					'title': 'Staff Count',
+					'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
+					'pieSliceText': 'label'
+				  },
 				  // Instruct the piechart to use colums 0 (Name) and 3 (Number of Resources)
 				  // from the 'data' DataTable.
-				//  'view': {'columns': [1, 4]}
-				//});
+				  'view': {'columns': [1, 4]}
+				});
 			  
 				// Define a table
 				var table = new google.visualization.ChartWrapper({
@@ -146,7 +146,7 @@
 					// picker will drive both charts.
 					bind(dutyPostPicker, divisionPicker).
 					bind(divisionPicker, ouPicker).
-					bind([nationalityPicker, categoryPicker], table).
+					bind([nationalityPicker, categoryPicker], [pie,table]).
 					// Draw the entire dashboard.
 					draw(data);
 					
@@ -167,16 +167,18 @@
         <body style="font-family: Arial;border: 0 none;">
 			<div id="dashboard">
 			  <table>
-				<tr style='vertical-align: top'>
-				  <td style='width: 25%; font-size: 0.9em;'>
-					<div id="control1"></div>
-					<div id="control2"></div>
-					<div id="control3"></div>
-					<div id="control4"></div>
-					<div id="control5"></div>
+				<tr>
+				  <td ><div id="control1"></div> </td>
+				  <td ><div id="control2"></div> </td>
+				  <td ><div id="control3"></div> </td>
+				  <td ><div id="control4"></div> </td>
+				  <td ><div id="control5"></div> </td>
 				  </td>
-				  <td style='width: 75%'>
+				</tr>
+				<tr>
+				  <td >
 					<div id="chart1"></div>
+					<div id="chart2"></div>
 				  </td>
 				</tr>
 			  </table>
