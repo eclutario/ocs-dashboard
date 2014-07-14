@@ -146,7 +146,7 @@
 					// picker will drive both charts.
 					bind(dutyPostPicker, divisionPicker).
 					bind(divisionPicker, ouPicker).
-					bind([nationalityPicker, categoryPicker], [pie, table]).
+					bind([nationalityPicker, categoryPicker], table).
 					// Draw the entire dashboard.
 					draw(data);
 					
