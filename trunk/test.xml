@@ -163,7 +163,6 @@
 				//	}				
 				//});
 				gadgets.window.adjustHeight();
-				
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
