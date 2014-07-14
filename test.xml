@@ -126,7 +126,7 @@
 				  },
 				  // Instruct the piechart to use colums 0 (Name) and 3 (Number of Resources)
 				  // from the 'data' DataTable.
-				  'view': {'columns': [1, 4]}
+				  'view': {'columns': [1, 6]}
 				});
 			  
 				// Define a table
