@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-    <ModulePrefs title="Agreement Report"
-                 description="Agreement Report"
-                 author="Victor Alarcon" author_email="v.alarcon@irri.org"
+    <ModulePrefs title="HR Report"
+                 description="HR Report"
+                 author="Victor Alarcon" author_email="vic@irri.org"
                  author_link="www.irri.org"
                  title_url="www.irri.org"
                  >
@@ -13,19 +13,6 @@
 	<UserPref name="title" display_name="Title" required="false" />
 	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
 	<Content type="html"><![CDATA[
-		<style>
-			chart_container {
-				position: relative;
-			}
-			table_div {
-				z-index: 1;
-			}
-			hack_chart_div {
-				position: absolute;
-				top: 0px;
-				z-index: 0;
-			}
-		</style> 
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
 			var prefs = new _IG_Prefs();
@@ -34,10 +21,9 @@
 			_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 			function loadVisualizationAPI() {
-			  google.load('visualization', '1', {'packages': ['corechart']});
+			  google.load('visualization', '1', {'packages': ['controls']});
 			  google.setOnLoadCallback(querySpreadsheet);
 			};
-			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
 
             function querySpreadsheet() {
 				var title = prefs.getString('title');
@@ -45,10 +31,10 @@
 				_IG_SetTitle(title);
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
-				var query = gadgetHelper.createQueryFromPrefs(prefs);
-				//var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=19Ca0JtfhaRc30wbgMHaFRWB2q73GOmjgbBfzE8jzlrw&gid=1013257615&pub=1');
-                query.setQuery("select A,B,C,D,E");
-				// Send the query with a callback function.				
+				//var query = gadgetHelper.createQueryFromPrefs(prefs);
+				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=17SuMa6sTBZzuBK2L7yO78zL3mws3ViVf88SqN1r9WqE&gid=1675004778&pub=1");
+                query.setQuery("select H,I,M,N, count(A) where H is not null and H <> '99999' and N is not null group by H,I,M,N label count(A) 'Total'");
+	  // Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
     
@@ -58,61 +44,132 @@
                     return;
                 }
                 var data = response.getDataTable();
-				
-				var bubbleChart = new google.visualization.ChartWrapper({
-							chartType: 'BubbleChart',
-							containerId: 'visualization',
-							dataTable: data,
-							options: {
-								title: 'Project Execution Time vs. Spend',
-								hAxis: {title: '% Spent'},
-								vAxis: {title: '% Time'},
-								height: 600,
-								width: 1200,
-								backgroundColor: 'transparent',
-								bubble: {textStyle: {color: 'transparent'},stroke: "transparent", opacity: 0.4},
-							}
-					});
-				bubbleChart.draw();
-				var hackChart = new google.visualization.ChartWrapper({
-					chartType: 'LineChart',
-					containerId: 'hack_chart_div',
-					dataTable: [['x', 'y'],[0, 0], [1, 1]],
-					options: {
-						height: 600,
-						width: 1200,
-						hAxis: {
-							textPosition: 'none',
-							gridlines: {
-								count: 0
-							},
-							baselineColor: 'none'
-						},
-						vAxis: {
-							textPosition: 'none',
-							gridlines: {
-								count: 0
-							},
-							baselineColor: 'none'
-						},
-						colors: ['blue'],
-						pointSize: 0,
-						lineWidth: 1,
-						enableInteractivity: false,
-						legend: {
-							position: 'none'
-						}
+
+				// Define a category picker control for the Nationality column
+				var nationalityPicker = new google.visualization.ControlWrapper({
+				  'controlType': 'CategoryFilter',
+				  'containerId': 'control1',
+				  'options': {
+					'filterColumnLabel': 'Nationality',
+					'ui': {
+					'labelStacking': 'Nationality',
+					  'allowTyping': false,
+					  'allowMultiple': true
 					}
+				  }
+				});  
+
+				// Define a category picker control for the Division column
+				var divisionPicker = new google.visualization.ControlWrapper({
+				  'controlType': 'CategoryFilter',
+				  'containerId': 'control2',
+				  'options': {
+					'filterColumnLabel': 'Division',
+					'ui': {
+					'labelStacking': 'OU',
+					  'allowTyping': false,
+					  'allowMultiple': true
+					}
+				  }
+				});   		
+				// Define a category picker control for the OU column
+				var ouPicker = new google.visualization.ControlWrapper({
+				  'controlType': 'CategoryFilter',
+				  'containerId': 'control4',
+				  'options': {
+					'filterColumnLabel': 'OU',
+					'ui': {
+					'labelStacking': 'OU',
+					  'allowTyping': false,
+					  'allowMultiple': true
+					}
+				  }
+				});      
+				// Define a category picker control for the Gender column
+				var categoryPicker = new google.visualization.ControlWrapper({
+				  'controlType': 'CategoryFilter',
+				  'containerId': 'control3',
+				  'options': {
+					'filterColumnLabel': 'Gender',
+					'ui': {
+					'labelStacking': 'vertical',
+					  'allowTyping': false,
+					  'allowMultiple': true
+					}
+				  }
 				});
-				hackChart.draw();
+			  
+				// Define a Pie chart
+				var pie = new google.visualization.ChartWrapper({
+				  'chartType': 'PieChart',
+				  'containerId': 'chart1',
+				  'options': {
+					'width': 400,
+					'height': 400,
+					'legend': 'none',
+					'title': 'Staff Count',
+					'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
+					'pieSliceText': 'label'
+				  },
+				  // Instruct the piechart to use colums 0 (Name) and 3 (Number of Resources)
+				  // from the 'data' DataTable.
+				  'view': {'columns': [1, 4]}
+				});
+			  
+				// Define a table
+				var table = new google.visualization.ChartWrapper({
+				  'chartType': 'Table',
+				  'containerId': 'chart2',
+				  'options': {
+					'width': '400px'
+				  }
+				});
+				
+
+			 
+				// Create a dashboard
+				new google.visualization.Dashboard(document.getElementById('dashboard')).
+					// Establish bindings, declaring the both the division and the category
+					// picker will drive both charts.
+					bind(divisionPicker, ouPicker).
+					bind([nationalityPicker, categoryPicker], [pie, table]).
+					// Draw the entire dashboard.
+					draw(data);
+					
+				google.visualization.drawChart({
+				"containerId": "chart3",
+				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C10&key=17SuMa6sTBZzuBK2L7yO78zL3mws3ViVf88SqN1r9WqE&gid=1850889964&headers=-1',
+				"refreshInterval": 5,
+				"chartType": "BarChart",
+				"options": {
+				  "title":"IRRI Gender Demographics",
+				  "vAxis": {"title": "Age Group"},
+				  "hAxis": {"title": "Staff By Gender"},
+				  "isStacked": true
+				}
+				
+			  });				
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
-			<div id="chart_container">
-				<div id="visualization"></div>
-				<div id="hack_chart_div"></div>
+			<div id="dashboard">
+			  <table>
+				<tr style='vertical-align: top'>
+				  <td style='width: 300px; font-size: 0.9em;'>
+					<div id="control1"></div>
+					<div id="control2"></div>
+					<div id="control3"></div>
+					<div id="control4"></div>
+				  </td>
+				  <td style='width: 600px'>
+					<div style="float: left;" id="chart1"></div>
+					<div style="float: top;" id="chart2"></div>
+					<div style="float: left;" id="chart3"></div>
+				  </td>
+				</tr>
+			  </table>
 			</div>
-        </body>
+		</body>
   ]]>
     </Content>
 </Module>
