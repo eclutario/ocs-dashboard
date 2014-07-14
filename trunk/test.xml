@@ -134,7 +134,7 @@
 				  'chartType': 'Table',
 				  'containerId': 'chart2',
 				  'options': {
-					'width': '1200px'
+					'width': '100%'
 				  }
 				});
 				
