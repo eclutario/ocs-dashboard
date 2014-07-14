@@ -150,33 +150,32 @@
 					// Draw the entire dashboard.
 					draw(data);
 					
-				google.visualization.drawChart({
-				"containerId": "chart3",
-				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C10&key=17SuMa6sTBZzuBK2L7yO78zL3mws3ViVf88SqN1r9WqE&gid=1850889964&headers=-1',
-				"refreshInterval": 5,
-				"chartType": "BarChart",
-				"options": {
-				  "title":"IRRI Gender Demographics",
-				  "vAxis": {"title": "Age Group"},
-				  "hAxis": {"title": "Staff By Gender"},
-				  "isStacked": true
-				}
-				
-			  });				
+				//google.visualization.drawChart({
+				//	"containerId": "chart3",
+				//	"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C10&key=17SuMa6sTBZzuBK2L7yO78zL3mws3ViVf88SqN1r9WqE&gid=1850889964&headers=-1',
+				//	"refreshInterval": 5,
+				//	"chartType": "BarChart",
+				//	"options": {
+				//	  "title":"IRRI Gender Demographics",
+				//	  "vAxis": {"title": "Age Group"},
+				//	  "hAxis": {"title": "Staff By Gender"},
+				//	  "isStacked": true
+				//	}				
+				//});				
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
 			<div id="dashboard">
 			  <table>
 				<tr style='vertical-align: top'>
-				  <td style='width: 300px; font-size: 0.9em;'>
+				  <td style='width: 200px; font-size: 0.9em;'>
 					<div id="control1"></div>
 					<div id="control2"></div>
 					<div id="control3"></div>
 					<div id="control4"></div>
 					<div id="control5"></div>
 				  </td>
-				  <td style='width: 600px'>
+				  <td style='width: 700px'>
 					<div style="float: left;" id="chart1"></div>
 					<div style="float: top;" id="chart2"></div>
 					<div style="float: left;" id="chart3"></div>
