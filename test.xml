@@ -112,10 +112,10 @@
 					}
 				  }
 				});				
-				 Define a Pie chart
+				// Define a Pie chart
 				var pie = new google.visualization.ChartWrapper({
 				  'chartType': 'PieChart',
-				  'containerId': 'chart2',
+				  'containerId': 'chart1',
 				  'options': {
 					'width': 400,
 					'height': 400,
