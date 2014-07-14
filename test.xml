@@ -132,7 +132,7 @@
 				// Define a table
 				var table = new google.visualization.ChartWrapper({
 				  'chartType': 'Table',
-				  'containerId': 'chart1',
+				  'containerId': 'chart2',
 				  'options': {
 					'width': '100%'
 				  }
@@ -168,12 +168,13 @@
 			<div id="dashboard">
 			  <table>
 				<tr>
-				  <td ><div id="control1"></div> </td>
-				  <td ><div id="control2"></div> </td>
-				  <td ><div id="control3"></div> </td>
-				  <td ><div id="control4"></div> </td>
-				  <td ><div id="control5"></div> </td>
-				  </td>
+					<td>
+					  <div id="control1"></div> 
+					  <div id="control2"></div> 
+					  <div id="control3"></div> 
+					  <div id="control4"></div> 
+					  <div id="control5"></div> 
+					</td>
 				</tr>
 				<tr>
 				  <td >
