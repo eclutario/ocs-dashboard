@@ -113,26 +113,26 @@
 				  }
 				});				
 				// Define a Pie chart
-				var pie = new google.visualization.ChartWrapper({
-				  'chartType': 'PieChart',
-				  'containerId': 'chart1',
-				  'options': {
-					'width': 400,
-					'height': 400,
-					'legend': 'none',
-					'title': 'Staff Count',
-					'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
-					'pieSliceText': 'label'
-				  },
+				//var pie = new google.visualization.ChartWrapper({
+				//  'chartType': 'PieChart',
+				//  'containerId': 'chart1',
+				//  'options': {
+				//	'width': 400,
+				//	'height': 400,
+				//	'legend': 'none',
+				//	'title': 'Staff Count',
+				//	'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
+				//	'pieSliceText': 'label'
+				//  },
 				  // Instruct the piechart to use colums 0 (Name) and 3 (Number of Resources)
 				  // from the 'data' DataTable.
-				  'view': {'columns': [1, 4]}
-				});
+				//  'view': {'columns': [1, 4]}
+				//});
 			  
 				// Define a table
 				var table = new google.visualization.ChartWrapper({
 				  'chartType': 'Table',
-				  'containerId': 'chart2',
+				  'containerId': 'chart1',
 				  'options': {
 					'width': '100%'
 				  }
@@ -176,9 +176,7 @@
 					<div id="control5"></div>
 				  </td>
 				  <td style='width: 75%'>
-					<div style="float: left;" id="chart1"></div>
-					<div style="float: top;" id="chart2"></div>
-					<div style="float: left;" id="chart3"></div>
+					<div id="chart1"></div>
 				  </td>
 				</tr>
 			  </table>
