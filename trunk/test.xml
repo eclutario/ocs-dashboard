@@ -6,7 +6,7 @@
                  author_link="www.irri.org"
                  title_url="www.irri.org"
                  >
-        <Require feature="dynamic-height"/>
+     <Require feature="dynamic-height"/>
      <Require feature="settitle" />
 	 <Require feature="setprefs" />
 	</ModulePrefs>
@@ -161,7 +161,9 @@
 				//	  "hAxis": {"title": "Staff By Gender"},
 				//	  "isStacked": true
 				//	}				
-				//});				
+				//});
+				gadgets.window.adjustHeight();
+				
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
