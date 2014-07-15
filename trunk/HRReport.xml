@@ -5,7 +5,7 @@
                  author="Victor Alarcon" author_email="vic@irri.org"
                  author_link="www.irri.org"
                  title_url="www.irri.org"
-                 >
+                 scrolling="true">
         <Require feature="dynamic-height"/>
      <Require feature="settitle" />
 	 <Require feature="setprefs" />
