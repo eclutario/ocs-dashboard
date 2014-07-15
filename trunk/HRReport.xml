@@ -154,7 +154,8 @@
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
-			<div id="chart1"></div>
+		<div  id="chart2"></div>
+
 			<div id="dashboard">
 			  <table>				
 				<tr style='vertical-align: top'>
@@ -165,7 +166,7 @@
 					<div id="control4"></div>
 				  </td>
 				  <td style='width: 600px'>				
-					<div  id="chart2"></div>
+					<div  id="chart1"></div>
 					<div id="chart3"></div>
 				  </td>
 				</tr>
