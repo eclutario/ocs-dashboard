@@ -144,7 +144,9 @@
 				  "title":"IRRI Gender Demographics",
 				  "vAxis": {"title": "Age Group"},
 				  "hAxis": {"title": "Staff By Gender"},
-				  "isStacked": true
+				  "isStacked": true,
+					width: 800,
+					height: 600,   
 				}
 				
 			  });
