@@ -145,7 +145,7 @@
 				  "vAxis": {"title": "Age Group"},
 				  "hAxis": {"title": "Staff By Gender"},
 				  "isStacked": true,
-					width: 800,
+					width: 1200,
 					height: 600,   
 				}
 				
