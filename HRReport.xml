@@ -137,7 +137,7 @@
 					
 				google.visualization.drawChart({
 				"containerId": "chart3",
-				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C10&key=17SuMa6sTBZzuBK2L7yO78zL3mws3ViVf88SqN1r9WqE&gid=1850889964&headers=-1',
+				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C6&key=1tXxpvjdUs_M5vSwhY3HRaIV7CFfrvNWbH9kNojrKbM8&gid=1813312915&headers=-1',
 				"refreshInterval": 5,
 				"chartType": "BarChart",
 				"options": {
@@ -147,7 +147,8 @@
 				  "isStacked": true
 				}
 				
-			  });				
+			  });
+				gadgets.window.adjustHeight();			  
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
