@@ -21,7 +21,7 @@
 			_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 			function loadVisualizationAPI() {
-			  google.load('visualization', '1', {'packages': ['corechart']});
+			  google.load('visualization', '1', {'packages': ['controls']});
 			  google.setOnLoadCallback(querySpreadsheet);
 			};
 			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
@@ -32,10 +32,7 @@
 				_IG_SetTitle(title);
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
-				  var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=1WpaDhmIrw8lifDiWQAM1bxqggvbEGREORLh8bAXyns4&gid=1125115258&pub=1');
-				
-				  // Apply query language.
-				  query.setQuery("select B, I ,J, K,F,A");
+				var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=1WpaDhmIrw8lifDiWQAM1bxqggvbEGREORLh8bAXyns4&gid=1125115258&pub=1');		
                 query.setQuery("select B, I ,J, K,F,A");
 				// Send the query with a callback function.				
                 query.send(handleQueryResponse);
