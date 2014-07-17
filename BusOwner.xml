@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="Agreement Report"
+                 description="Agreement Report"
+                 author="Victor Alarcon" author_email="v.alarcon@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 >
+        <Require feature="dynamic-height"/>
+     <Require feature="settitle" />
+	 <Require feature="setprefs" />
+	</ModulePrefs>
+	<UserPref name="title" display_name="Title" required="false" />
+	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
+	<Content type="html"><![CDATA[
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+			var prefs = new _IG_Prefs();
+			// The gviz helper for gadget specific functionality.
+			var gadgetHelper = null;
+			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+			function loadVisualizationAPI() {
+			  google.load('visualization', '1', {'packages': ['corechart']});
+			  google.setOnLoadCallback(querySpreadsheet);
+			};
+			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
+
+            function querySpreadsheet() {
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				gadgetHelper = new google.visualization.GadgetHelper();
+				var query = gadgetHelper.createQueryFromPrefs(prefs);
+				//var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=1WpaDhmIrw8lifDiWQAM1bxqggvbEGREORLh8bAXyns4&gid=1125115258&pub=1');
+                query.setQuery("select B, I ,J, K,F,A");
+				// Send the query with a callback function.				
+                query.send(handleQueryResponse);
+            }
+    
+            function handleQueryResponse(response) {
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                }
+                var data = response.getDataTable();
+				
+		var busOwnerFilter = new google.visualization.ControlWrapper({
+		  'controlType': 'CategoryFilter',
+		  'containerId': 'busOwnerFilter',
+		  'options': {
+			'filterColumnLabel': 'Name',
+			'title': 'Bus Owner',
+			'ui': {
+			'labelStacking': 'vertical',
+			  'allowTyping': false,
+			  'allowMultiple': true
+			}
+		  },
+		  'state': {'selectedValues': ['Sarah Beebout']}
+		});	
+		
+		var bubbleChart = new google.visualization.ChartWrapper({
+			chartType: 'BubbleChart',
+			containerId: 'table_div',
+			options: {
+				title: 'Project Execution Time vs. Spend',
+				hAxis: {title: '% Spent'},
+				vAxis: {title: '% Time'},
+				height: 600,
+				width: 1200,
+				backgroundColor: 'transparent',
+				bubble: {textStyle: {color: 'transparent'},stroke: "transparent", opacity: 0.4},
+				colorAxis : { minValue: 0.10, maxValue:0.25, colors:['green', 'yellow', 'red']},
+				legend: {position: 'right', textStyle: {color: 'blue', fontSize: 16}}
+			}
+		});
+		
+		// Create a dashboard
+		new google.visualization.Dashboard(document.getElementById('dashboard')).
+			// Establish bindings, declaring the both the division and the category
+			// picker will drive both charts.
+			bind(busOwnerFilter, bubbleChart).
+			// Draw the entire dashboard.
+			draw(data);
+
+            }      
+        </script>
+        <body style="font-family: Arial;border: 0 none;">
+			<div id="dashboard">
+				<div id="busOwnerFilter"></div>
+				<div id="table_div"></div>
+				<div id="hack_chart_div"></div>
+			</div>
+        </body>
+  ]]>
+    </Content>
+</Module>
