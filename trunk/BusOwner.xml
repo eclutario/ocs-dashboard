@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-    <ModulePrefs title="Agreement Report"
-                 description="Agreement Report"
+    <ModulePrefs title="Bus Owner Report"
+                 description="Bus Owner Report"
                  author="Victor Alarcon" author_email="v.alarcon@irri.org"
                  author_link="www.irri.org"
                  title_url="www.irri.org"
