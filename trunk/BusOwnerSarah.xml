@@ -90,7 +90,7 @@
 						hAxis: {title: '% Spent',format: '0.00%' },
 						vAxis: {title: '% Time',format: '0.00%' },
 						height: 600,
-						width: 1200,
+						width: 800,
 						backgroundColor: 'transparent',
 						bubble: {textStyle: {color: 'transparent'},stroke: "transparent", opacity: 0.4},
 						colorAxis : { minValue: 0.10, maxValue:0.25, colors:['green', 'yellow', 'red']},
