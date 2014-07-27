@@ -61,7 +61,7 @@
 			_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 			function loadVisualizationAPI() {
-			  google.load('visualization', '1', {'packages': ['controls']});
+			  google.load('visualization', '1', {'packages': ['controls','corechart']});
 			  google.setOnLoadCallback(querySpreadsheet);
 			};
 			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
