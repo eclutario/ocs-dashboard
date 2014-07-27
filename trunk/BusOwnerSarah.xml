@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="Bus Owner Report"
+                 description="Bus Owner Report"
+                 author="Victor Alarcon" author_email="v.alarcon@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 >
+        <Require feature="dynamic-height"/>
+     <Require feature="settitle" />
+	 <Require feature="setprefs" />
+	</ModulePrefs>
+	<UserPref name="title" display_name="Title" required="false" />
+	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
+	<Content type="html"><![CDATA[
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript">
+			var prefs = new _IG_Prefs();
+			// The gviz helper for gadget specific functionality.
+			var gadgetHelper = null;
+			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+			function loadVisualizationAPI() {
+			  google.load('visualization', '1', {'packages': ['controls']});
+			  google.setOnLoadCallback(querySpreadsheet);
+			};
+			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
+
+            function querySpreadsheet() {
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				gadgetHelper = new google.visualization.GadgetHelper();
+				var query = new google.visualization.Query('http://spreadsheets.google.com/tq?key=1PPc2adGEEg9Gp5l8fbYOhB4CQplFYLU6NBOBYqdOYU0&gid=50200014&pub=1');
+				query.setQuery("select B,I,K,J, 30, M,A,F,G,H,C,D,E format I '0.00%', K '0.00%'");				
+				// Send the query with a callback function.				
+                query.send(handleQueryResponse);
+            }
+    
+            function handleQueryResponse(response) {
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                }
+                var data = response.getDataTable();
+				
+				var options = {
+						title: 'Project Execution Time vs. Spend',
+						hAxis: {title: '% Spent',format: '0.00%' },
+						vAxis: {title: '% Time',format: '0.00%' },
+						height: 600,
+						width: 1200,
+						backgroundColor: 'transparent',
+						bubble: {textStyle: {color: 'transparent'},stroke: "transparent", opacity: 0.4},
+						colorAxis : { minValue: 0.10, maxValue:0.25, colors:['green', 'yellow', 'red']},
+						sortBubblesBySize: true,
+						//tooltip: { trigger: 'none'},
+						legend: {position: 'right', textStyle: {color: 'blue', fontSize: 16}}
+				};
+				
+				var bubbleChart = new google.visualization.BubbleChart(document.getElementById('bubble_div'))
+				google.visualization.events.addListener(bubbleChart, 'select',function(e) {
+					var selection = bubbleChart.getSelection();			
+					if( selection != null && selection.length > 0){
+							var item = selection[0];
+							if (item.row != null) {
+								var busHeader = '<H3>Bus profile</H3>';
+								var busOwner = '<div> Bus owner: ' + data.getFormattedValue(item.row, 6)+ '</div>';
+								var busId = '<div> Bus Id: ' + data.getFormattedValue(item.row, 0)+ '</div>';
+								var stardDate = '<div> Start Date: ' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(item.row, 10)))+ '</div>';
+								var endDate = '<div> End Date: ' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(item.row, 11)))+ '</div>';						
+								var extensionDate = '<div> Extension Date: ' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(item.row, 12)))+ '</div>';						
+								var totalBudget = '<div> Total Budget: ' + data.getFormattedValue(item.row, 7)+ '</div>';
+								var totalExpenses = '<div> Total Expenses: ' + data.getFormattedValue(item.row, 8)+ '</div>';
+								var totalBalance = '<div> Total Balance: ' + data.getFormattedValue(item.row, 9)+ '</div>';
+								var str = busHeader+busOwner+busId+stardDate+endDate+extensionDate+totalBudget+totalExpenses+totalBalance;
+								$("#custom_tooltip").html(str);
+							}
+							else
+							{
+								$("#custom_tooltip").html("error");
+							}
+					}
+			
+				});
+		
+				bubbleChart.draw(data,options);		
+
+
+
+            }      
+        </script>
+        <body style="font-family: Arial;border: 0 none;">
+			<div id="container">
+				<div id="content-container">
+					<div id="content">
+						<h2>
+							Page heading
+						</h2>
+						<div id="bubble_div"></div>
+					</div>
+					<div id="aside">
+						<div id="custom_tooltip"></div>
+					</div>
+				</div>
+			</div>
+        </body>
+  ]]>
+    </Content>
+</Module>
