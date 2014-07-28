@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-    <ModulePrefs title="Google Spredsheet Sample Gadget"
-                 description="OCS Bubble Report"
+    <ModulePrefs title="Agreement Report"
+                 description="Agreement Report"
                  author="Victor Alarcon" author_email="v.alarcon@irri.org"
                  author_link="www.irri.org"
                  title_url="www.irri.org"
-                 height="400">
+                 >
         <Require feature="dynamic-height"/>
-    </ModulePrefs>
-    <Content type="html"><![CDATA[
+     <Require feature="settitle" />
+	 <Require feature="setprefs" />
+	</ModulePrefs>
+	<UserPref name="title" display_name="Title" required="false" />
+	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
+	<Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
-            google.load('visualization', '1', {packages: ['motionchart']});
-        </script>
-        <script type="text/javascript">
-            gadgets.util.registerOnLoadHandler(querySpreadsheet);
+			var prefs = new _IG_Prefs();
+			// The gviz helper for gadget specific functionality.
+			var gadgetHelper = null;
+			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+			function loadVisualizationAPI() {
+			  google.load('visualization', '1', {'packages': ['motionchart']});
+			  google.setOnLoadCallback(querySpreadsheet);
+			};
+			//gadgets.util.registerOnLoadHandler(querySpreadsheet);
 
             function querySpreadsheet() {
-                var query = new google.visualization.Query('https://docs.google.com/spreadsheet/ccc?key=0Aio3Y5QAMdBBdHU2R0hfcXkwSlNBbFhQeTMzX25VLVE&hl=en_US');
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				gadgetHelper = new google.visualization.GadgetHelper();
+				var query = gadgetHelper.createQueryFromPrefs(prefs);
+				//var query = new google.visualization.Query('https://docs.google.com/a/irri.org/spreadsheets/d/1VdKQq8jFSSEAtc2ROcPxx57trmZAB7JVYCsPA6Bztrk/edit#gid=797683742');
                 query.setQuery("select A,B,C,D,E");
+				// Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
     
@@ -28,8 +45,9 @@
                     return;
                 }
                 var data = response.getDataTable();
-                var visualization = new google.visualization.MotionChart(document.getElementById('visualization'));
-                visualization.draw(data);
+				
+				var bubbleChart = new google.visualization.MotionChart(visualization);
+				bubbleChart.draw();
             }      
         </script>
         <body style="font-family: Arial;border: 0 none;">
