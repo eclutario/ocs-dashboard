@@ -32,8 +32,8 @@
 				_IG_SetTitle(title);
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
-				var query = gadgetHelper.createQueryFromPrefs(prefs);
-				//var query = new google.visualization.Query('https://docs.google.com/a/irri.org/spreadsheets/d/1VdKQq8jFSSEAtc2ROcPxx57trmZAB7JVYCsPA6Bztrk/edit#gid=797683742');
+				//var query = gadgetHelper.createQueryFromPrefs(prefs);
+				var query = new google.visualization.Query('https://docs.google.com/a/irri.org/spreadsheets/d/1VdKQq8jFSSEAtc2ROcPxx57trmZAB7JVYCsPA6Bztrk/edit#gid=797683742');
                 query.setQuery("select A,B,C,D,E");
 				// Send the query with a callback function.				
                 query.send(handleQueryResponse);
