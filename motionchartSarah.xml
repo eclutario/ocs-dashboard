@@ -102,7 +102,7 @@ function initialize() {
   }
   gadgetHelper = new google.visualization.GadgetHelper();
   //var query = gadgetHelper.createQueryFromPrefs(prefs);
-  var query = new google.visualization.Query('https://docs.google.com/a/irri.org/spreadsheets/d/1eF6idpaE4C5PYe80enebCzm3jQ1yqzHWbGi63TaJ6jo/edit#gid=1785645304');
+  var query = new google.visualization.Query('https://docs.google.com/a/irri.org/spreadsheets/d/1VdKQq8jFSSEAtc2ROcPxx57trmZAB7JVYCsPA6Bztrk/edit#gid=797683742');
   query.setQuery("select A,B,C,D,E");	
   var container = document.getElementById('flashcontent');
   motionchart = new google.visualization.MotionChart(container);
