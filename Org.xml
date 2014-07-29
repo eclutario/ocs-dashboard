@@ -32,8 +32,8 @@
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
 				//var query = gadgetHelper.createQueryFromPrefs(prefs);
-				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1TbarReXWm81hae-jBrzbSTW-_yZ_5h88nAiIIys3_88&gid=1147154735&pub=1");
-                query.setQuery("SELECT B,S, T,E,F,L,O,I,J,K Where J='CIO' or J='DHRS' Label S 'Supervisor' ");
+				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1345663513&pub=1");
+                query.setQuery("SELECT A,U,V,E,F,G,K,J,N,O,P,S Where J='CIO' or J='DHRS' Label U 'Supervisor'  ");
 	  // Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
@@ -77,7 +77,7 @@
 				var table = new google.visualization.ChartWrapper({
 				  'chartType': 'Table',
 				  'containerId': 'chart3',
-				  'view': {'columns': [0,3,4,5,6,7,8,9]}
+				  'view': {'columns': [0,3,4,5,6,7,8,9,10,11]}
 				  });
 
 			 
