@@ -85,7 +85,7 @@
 				new google.visualization.Dashboard(document.getElementById('dashboard')).
 					// Establish bindings, declaring the both the division and the category
 					// picker will drive both charts.
-					bind([ouPicker], [org]).
+					bind([ouPicker], [org, table]).
 					// Draw the entire dashboard.
 					draw(data);
 					
