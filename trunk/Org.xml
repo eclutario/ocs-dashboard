@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="HR Report"
+                 description="HR Report"
+                 author="Victor Alarcon" author_email="vic@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 scrolling="true">
+        <Require feature="dynamic-height"/>
+     <Require feature="settitle" />
+	 <Require feature="setprefs" />
+	</ModulePrefs>
+	<UserPref name="title" display_name="Title" required="false" />
+	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
+	<Content type="html"><![CDATA[
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+			var prefs = new _IG_Prefs();
+			// The gviz helper for gadget specific functionality.
+			var gadgetHelper = null;
+			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+			function loadVisualizationAPI() {
+			  google.load('visualization', '1', {'packages': ['controls']});
+			  google.setOnLoadCallback(querySpreadsheet);
+			};
+
+            function querySpreadsheet() {
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				gadgetHelper = new google.visualization.GadgetHelper();
+				//var query = gadgetHelper.createQueryFromPrefs(prefs);
+				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1TbarReXWm81hae-jBrzbSTW-_yZ_5h88nAiIIys3_88&gid=1147154735&pub=1");
+                query.setQuery("SELECT B,S, T,E,F,L,O,I,J,K Where J='CIO' or J='DHRS' Label S 'Supervisor' ");
+	  // Send the query with a callback function.				
+                query.send(handleQueryResponse);
+            }
+    
+            function handleQueryResponse(response) {
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                }
+                var data = response.getDataTable();
+
+
+				// Define a category picker control for the Division column
+				var divisionPicker = new google.visualization.ControlWrapper({
+				  'controlType': 'CategoryFilter',
+				  'containerId': 'control2',
+				  'options': {
+					'filterColumnLabel': 'Division',
+					'ui': {
+					'labelStacking': 'OU',
+					  'allowTyping': false,
+					  'allowMultiple': true
+					}
+				  }
+				});   		
+
+				google.visualization.drawChart({
+				"containerId": "chart2",
+				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C6&key=1tXxpvjdUs_M5vSwhY3HRaIV7CFfrvNWbH9kNojrKbM8&gid=1813312915&headers=-1',
+				"refreshInterval": 5,
+				"chartType": "BarChart",
+				"options": {
+				  "title":"IRRI Gender Demographics",
+				  "vAxis": {"title": "Age Group"},
+				  "hAxis": {"title": "Staff By Gender"},
+				  "isStacked": true,
+					width: 1200,
+					height: 600,   
+				}
+				
+			  });					
+			  
+				// Define a Pie chart
+				var org = new google.visualization.ChartWrapper({
+				  'chartType': 'OrgChart',
+				  'containerId': 'chart1',
+
+
+				  // from the 'data' DataTable.
+				  'view': {'columns': [0,1,2]}
+				});
+			  
+				// Define a table
+				var table = new google.visualization.ChartWrapper({
+				  'chartType': 'Table',
+				  'containerId': 'chart3',
+				  'view': {'columns': [0,3,4,5,6,7,8,9]}
+				  });
+
+			 
+				// Create a dashboard
+				new google.visualization.Dashboard(document.getElementById('dashboard')).
+					// Establish bindings, declaring the both the division and the category
+					// picker will drive both charts.
+					bind([ouPicker], [org, table]).
+					// Draw the entire dashboard.
+					draw(data);
+					
+
+				//gadgets.window.adjustHeight();			  
+            }      
+        </script>
+        <body style="font-family: Arial;border: 0 none;">
+		<div  id="chart2"></div>
+
+			<div id="dashboard">
+			  <table>				
+				<tr style='vertical-align: top'>
+				  <td style='width: 300px; font-size: 0.9em;'>
+					<div id="control1"></div>
+					<div id="control2"></div>
+					<div id="control3"></div>
+					<div id="control4"></div>
+				  </td>
+				  <td style='width: 600px'>				
+					<div  id="chart1"></div>
+					<div id="chart3"></div>
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</body>
+  ]]>
+    </Content>
+</Module>
