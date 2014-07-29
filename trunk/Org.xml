@@ -51,7 +51,7 @@
 				  'controlType': 'CategoryFilter',
 				  'containerId': 'control4',
 				  'options': {
-					'filterColumnLabel': 'Ou',
+					'filterColumnLabel': 'OU',
 					'ui': {
 					'labelStacking': 'OU',
 					  'allowTyping': false,
