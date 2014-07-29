@@ -46,37 +46,24 @@
                 var data = response.getDataTable();
 
 
-				// Define a category picker control for the Division column
-				var divisionPicker = new google.visualization.ControlWrapper({
+				// Define a category picker control for the OU column
+				var ouPicker = new google.visualization.ControlWrapper({
 				  'controlType': 'CategoryFilter',
-				  'containerId': 'control2',
+				  'containerId': 'control4',
 				  'options': {
-					'filterColumnLabel': 'Division',
+					'filterColumnLabel': 'Ou',
 					'ui': {
 					'labelStacking': 'OU',
 					  'allowTyping': false,
 					  'allowMultiple': true
 					}
 				  }
+				  ,
+				  'state': {'selectedValues': ['CIO']}
 				});   		
-
-				google.visualization.drawChart({
-				"containerId": "chart2",
-				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C6&key=1tXxpvjdUs_M5vSwhY3HRaIV7CFfrvNWbH9kNojrKbM8&gid=1813312915&headers=-1',
-				"refreshInterval": 5,
-				"chartType": "BarChart",
-				"options": {
-				  "title":"IRRI Gender Demographics",
-				  "vAxis": {"title": "Age Group"},
-				  "hAxis": {"title": "Staff By Gender"},
-				  "isStacked": true,
-					width: 1200,
-					height: 600,   
-				}
-				
-			  });					
+					
 			  
-				// Define a Pie chart
+				// Define a  chart
 				var org = new google.visualization.ChartWrapper({
 				  'chartType': 'OrgChart',
 				  'containerId': 'chart1',
