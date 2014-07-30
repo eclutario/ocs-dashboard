@@ -50,8 +50,7 @@
 				bubbleChart.draw();
             }      
         </script>
-        <body style="font-family: Arial;border: 0 none;">
-		<div style="font-size: xx-small;"> Last updated: 7/28/2014 13:58:02</div>
+        <body style="font-family: Arial;border: 0 none;">		<div style="font-size: xx-small;"> Last updated: 7/28/2014 13:58:02</div>
             <div id="visualization" style="height: 400px; width: 400px;"></div>
         </body>
   ]]>
