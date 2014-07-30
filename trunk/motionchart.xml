@@ -73,7 +73,7 @@
   <Content type="html"><![CDATA[
   <table cellspacing="6" cellpadding="0" border="0">
     <tr>
-      <td><div id="flashcontent"><img src="https://www.google.com/ig/images/spinner.gif" /></div></td>
+      <td><div style="font-size: xx-small;"> Last updated: 7/28/2014 13:58:02</div><div id="flashcontent"><img src="https://www.google.com/ig/images/spinner.gif" /></div></td>
     </tr>
   </table>
    
