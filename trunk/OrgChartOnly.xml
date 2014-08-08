@@ -32,8 +32,8 @@
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
 				//var query = gadgetHelper.createQueryFromPrefs(prefs);
-				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1218808362&pub=1");
-                query.setQuery("SELECT *");
+				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=976757723&pub=1");
+                query.setQuery("SELECT A,U,V,E,F,G,K,J,N,O,P,S WHERE toDate(F) >= toDate(now()) Label U 'Supervisor'");
 	  // Send the query with a callback function.				
                 query.send(handleQueryResponse);
             }
