@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="HR Report"
+                 description="HR Report"
+                 author="Victor Alarcon" author_email="vic@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 scrolling="true">
+        <Require feature="dynamic-height"/>
+     <Require feature="settitle" />
+	 <Require feature="setprefs" />
+	</ModulePrefs>
+	<UserPref name="title" display_name="Title" required="false" />
+	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
+	<Content type="html"><![CDATA[
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+			var prefs = new _IG_Prefs();
+			// The gviz helper for gadget specific functionality.
+			var gadgetHelper = null;
+			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+			function loadVisualizationAPI() {
+			  google.load('visualization', '1', {'packages': ['controls']});
+			  google.setOnLoadCallback(querySpreadsheet);
+			};
+
+            function querySpreadsheet() {
+				var title = prefs.getString('title');
+				if (title != '') {
+				_IG_SetTitle(title);
+				}
+				gadgetHelper = new google.visualization.GadgetHelper();
+				//var query = gadgetHelper.createQueryFromPrefs(prefs);
+				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1218808362&pub=1");
+                query.setQuery("SELECT *");
+	  // Send the query with a callback function.				
+                query.send(handleQueryResponse);
+            }
+    
+            function handleQueryResponse(response) {
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                }
+                var data = response.getDataTable();
+
+
+				// Define a category picker control for the OU column
+				var ouPicker = new google.visualization.ControlWrapper({
+				  'controlType': 'CategoryFilter',
+				  'containerId': 'control4',
+				  'options': {
+					'filterColumnLabel': 'OU',
+					'ui': {
+					'labelStacking': 'OU',
+					  'allowTyping': false,
+					  'allowMultiple': true
+					}
+				  }
+				});   		
+					
+			  
+				// Define a  chart
+				var org = new google.visualization.ChartWrapper({
+				  'chartType': 'OrgChart',
+				  'containerId': 'chart1',
+
+
+				  // from the 'data' DataTable.
+				  'view': {'columns': [0,1,2]}
+				});
+			  
+
+
+			 
+				// Create a dashboard
+				new google.visualization.Dashboard(document.getElementById('dashboard')).
+					// Establish bindings, declaring the both the division and the category
+					// picker will drive both charts.
+					bind([ouPicker], [org]).
+					// Draw the entire dashboard.
+					draw(data);
+					
+
+				//gadgets.window.adjustHeight();			  
+            }      
+        </script>
+        <body style="font-family: Arial;border: 0 none;">
+		<div style="font-size: xx-small;"> Last updated: 8/06/2014 0:24:05</div>
+		<div  id="chart2"></div>
+
+			<div id="dashboard">
+			  <table>				
+				<tr style='vertical-align: top'>
+				  <td style='width: 300px; font-size: 0.9em;'>
+					<div id="control1"></div>
+					<div id="control2"></div>
+					<div id="control3"></div>
+					<div id="control4"></div>
+				  </td>
+				  <td style='width: 600px'>				
+					<div  id="chart1"></div>
+					<div id="chart3"></div>
+				  </td>
+				</tr>
+			  </table>
+			</div>
+		</body>
+  ]]>
+    </Content>
+</Module>
