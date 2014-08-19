@@ -63,7 +63,7 @@
 		var tableQuery;
 		tableQuery && tableQuery.abort();
 		tableQuery = new google.visualization.Query(source + queryString);
-		var queryWrapper = new QueryWrapper(tableQuery, chart, '', container);
+		var queryWrapper = new QueryWrapper(tableQuery, chart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();	
 	}
 	function sendAndDraw(source,container,queryString) {
@@ -164,6 +164,7 @@
 		this.handleErrorResponse(response);
 	  } else {
 		this.currentDataTable = response.getDataTable();
+		Alert('Get Table was called');
 		this.draw();
 	  }
 	};
