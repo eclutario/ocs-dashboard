@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+
+  <ModulePrefs
+      title="__MSG_default_title__"
+      author="Google Engineering"
+      author_affiliation="Google Inc."
+      author_email="visualization.api+motionchart@gmail.com"
+      description="__MSG_description__"
+      screenshot="https://www.google.com/ig/modules/motionchart.png"
+      thumbnail="https://www.google.com/ig/modules/motionchart-thm.png"
+      height="350">
+    <Require feature="settitle" />
+    <Require feature="idi" />
+    <Require feature="locked-domain" />
+    <Require feature="setprefs" />
+  </ModulePrefs>
+
+  <UserPref name="_table_query_url" display_name="__MSG_tablequeryurl__" required="true" />
+  <UserPref name="title" display_name="__MSG_title__" required="false" />
+  <UserPref name="initialstate" display_name="__MSG_initialstate__" required="false" />
+  <UserPref name="_table_query_refresh_interval" display_name="__MSG_tablequeryrefreshinterval__" default_value="300" datatype="enum" required="false">
+    <EnumValue value="0" display_value="__MSG_never__" />
+    <EnumValue value="60" display_value="1" />
+    <EnumValue value="300" display_value="5" />
+    <EnumValue value="1800" display_value="30" />
+  </UserPref>
+
+  <Content type="html"><![CDATA[
+	<div id="motionchart"></div>
+	<h3><div id="Agreement"><div></h3>
+	<div id="AEC_MotionChart"></div>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
+  <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+   <script type="text/javascript">
+	  /**
+	 * A google.visualization.Query Wrapper. Sends a
+	 * query and draws the visualization with the returned data or outputs an
+	 * error message.
+	 *
+	 * DISCLAIMER: This is an example code which you can copy and change as
+	 * required. It is used with the google visualization API which is assumed to
+	 * be loaded to the page. For more info see:
+	 * https://developers.google.com/chart/interactive/docs/reference#Query
+	 */
+
+
+	/**
+	 * Constructs a new query wrapper with the given query, visualization,
+	 * visualization options, and error message container. The visualization
+	 * should support the draw(dataTable, options) method.
+	 * @constructor
+	 */
+	var QueryWrapper = function(query, visualization, visOptions, errorContainer) {
+
+	  this.query = query;
+	  this.visualization = visualization;
+	  this.options = visOptions || {};
+	  this.errorContainer = errorContainer;
+	  this.currentDataTable = null;
+
+	  if (!visualization || !('draw' in visualization) ||
+		  (typeof(visualization['draw']) != 'function')) {
+		throw Error('Visualization must have a draw method.');
+	  }
+	};
+
+
+	/** Draws the last returned data table, if no data table exists, does nothing.*/
+	QueryWrapper.prototype.draw = function() {
+	  if (!this.currentDataTable) {
+		return;
+	  }
+	  this.visualization.draw(this.currentDataTable, this.options);
+	};
+
+
+	/**
+	 * Sends the query and upon its return draws the visualization.
+	 * If the query is set to refresh then the visualization will be drawn upon
+	 * each refresh.
+	 */
+	QueryWrapper.prototype.sendAndDraw = function() {
+	  var query = this.query;
+	  var self = this;
+	  query.send(function(response) {self.handleResponse(response)});
+	};
+
+
+	/** Handles the query response returned by the data source. */
+	QueryWrapper.prototype.handleResponse = function(response) {
+	  this.currentDataTable = null;
+	  if (response.isError()) {
+		this.handleErrorResponse(response);
+	  } else {
+		this.currentDataTable = response.getDataTable();
+		this.draw();
+	  }
+	};
+
+
+	/** Handles a query response error returned by the data source. */
+	QueryWrapper.prototype.handleErrorResponse = function(response) {
+	  var message = response.getMessage();
+	  var detailedMessage = response.getDetailedMessage();
+	  if (this.errorContainer) {
+		google.visualization.errors.addError(this.errorContainer,
+			message, detailedMessage, {'showInTooltip': false});
+	  } else {
+		throw Error(message + ' ' + detailedMessage);
+	  }
+	};
+
+
+	/** Aborts the sending and drawing. */
+	QueryWrapper.prototype.abort = function() {
+	  this.query.abort();
+	};
+  </script>  
+  <script type="text/javascript">
+	var prefs = new _IG_Prefs();
+	// The gviz helper for gadget specific functionality.
+	var gadgetHelper = null;
+	// The motionchart visualization
+	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
+	var motionchart;
+	var query ;
+	_IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+	function loadVisualizationAPI() {
+		gadgetHelper = new google.visualization.GadgetHelper();
+		query = gadgetHelper.createQueryFromPrefs(prefs);		
+		google.load('visualization', '1', {'packages' : ['motionchart','table']});
+		google.setOnLoadCallback(function() { sendAndDraw(query,document.getElementById('motionchart'),'') });
+	};
+
+	function sendAndDraw(source,container,queryString) {
+		motionChart = new google.visualization.MotionChart(container);
+		google.visualization.events.addListener(motionChart, 'ready', function () {
+			google.visualization.events.addListener(motionChart, 'statechange', function () {
+				// do something on statechange
+				var selection = JSON.parse(motionChart.getState()).iconKeySettings;
+				var arr = [];
+				for (var i = 0; i < selection.length; i++) {
+					arr.push(selection[i].key.dim0);
+				}
+				if (arr.length > 0) {
+					var selected = selection[arr.length-1].key.dim0;
+					alert('You have selected ' + selected );
+					sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=SELECT D,E,F,G,H,I,J,K WHERE B='"+selected+"'");
+					$("#Agreement").html(selected+" Details:");
+				}
+			});
+		});	  
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		var queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container);
+		queryWrapper.sendAndDraw();
+    }
+
+	function sendAndDrawTable(source,container,queryString)
+	{
+		chart = new google.visualization.Table(container);
+		//var tableQuery;
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		var queryWrapper = new QueryWrapper(query, chart, {width: 1200, height:600}, container);
+		queryWrapper.sendAndDraw();	
+	}
+	/**
+	  var data = resp.getDataTable();
+	  var options = [];
+	  // Taken from the table element container.
+	  var spacing = 6;
+	  options['height'] = document.body.clientHeight - (spacing * 2);
+	  options['width'] = document.body.clientWidth - (spacing * 2);
+	  options['state'] = prefs.getString('initialstate');
+	**/
+
+   </script>
+  ]]>
+  </Content>
+</Module>
