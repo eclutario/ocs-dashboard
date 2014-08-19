@@ -46,7 +46,8 @@
 
 	function loadVisualizationAPI() {
 		gadgetHelper = new google.visualization.GadgetHelper();
-		query = dataSourceUrl;//gadgetHelper.createQueryFromPrefs(prefs);		
+		query = gadgetHelper.createQueryFromPrefs(prefs);
+		
 		google.load('visualization', '1', {'packages' : ['motionchart','table']});
 		google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	};
