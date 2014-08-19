@@ -51,7 +51,7 @@
 
 	function loadVisualizationAPI() {
 		gadgetHelper = new google.visualization.GadgetHelper();
-		query = gadgetHelper.createQueryFromPrefs(prefs);
+		query =dataSourceUrl;// gadgetHelper.createQueryFromPrefs(prefs);
 		chart = new google.visualization.Table(container);	
 		//google.load('visualization', '1', {'packages' : ['motionchart','table']});
 		google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
@@ -59,8 +59,6 @@
 
 	function sendAndDrawTable(source,container,queryString)
 	{
-
-
 		tableQuery && tableQuery.abort();
 		tableQuery = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(tableQuery, chart, {width: 1200, height:600}, container);
@@ -89,7 +87,7 @@
 		query = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();
-		sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 25");
+		//sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 25");
     }
 
 
