@@ -54,6 +54,16 @@
 		google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	};
 
+	function sendAndDrawTable(source,container,queryString)
+	{
+		chart = new google.visualization.Table(container);
+		//var tableQuery;
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		alert(source +queryString);
+		var queryWrapper = new QueryWrapper(query, chart, {width: 1200, height:600}, container);
+		queryWrapper.sendAndDraw();	
+	}
 	function sendAndDraw(source,container,queryString) {
 		motionChart = new google.visualization.MotionChart(container);
 		google.visualization.events.addListener(motionChart, 'ready', function () {
@@ -78,15 +88,7 @@
 		queryWrapper.sendAndDraw();
     }
 
-	function sendAndDrawTable(source,container,queryString)
-	{
-		chart = new google.visualization.Table(container);
-		//var tableQuery;
-		query && query.abort();
-		query = new google.visualization.Query(source + queryString);
-		var queryWrapper = new QueryWrapper(query, chart, {width: 1200, height:600}, container);
-		queryWrapper.sendAndDraw();	
-	}
+
 	/**
 	  var data = resp.getDataTable();
 	  var options = [];
