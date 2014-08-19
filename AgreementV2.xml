@@ -30,8 +30,8 @@
    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
    <div id="motionchart"></div>
-	<div id="Agreement"></div>
-	<div id="AEC_MotionChart"></div>	
+	<h3><div id="Agreement"></div></h3>
+	<div id="AEC_MotionChart"></div>
 
 
 
@@ -47,22 +47,23 @@
 	var chart;
 	var query ;
 	var tableQuery;
-	var aec = document.getElementById('AEC_MotionChart');
 	_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 	function loadVisualizationAPI() {
 		gadgetHelper = new google.visualization.GadgetHelper();
 		query = gadgetHelper.createQueryFromPrefs(prefs);
-		chart = new google.visualization.Table(aec);	
+		chart = new google.visualization.Table(container);	
 		//google.load('visualization', '1', {'packages' : ['motionchart','table']});
 		google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	};
 
-	function sendAndDrawTable(source,queryString)
+	function sendAndDrawTable(source,container,queryString)
 	{
-		query && query.abort();
-		query = new google.visualization.Query(source + queryString);
-		var queryWrapper = new QueryWrapper(query,  document.getElementById('AEC_MotionChart'), {width: 1200, height:600}, aec);
+
+
+		tableQuery && tableQuery.abort();
+		tableQuery = new google.visualization.Query(source + queryString);
+		var queryWrapper = new QueryWrapper(tableQuery, chart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();	
 	}
 	function sendAndDraw(source,container,queryString) {
@@ -78,7 +79,7 @@
 				if (arr.length > 0) {
 					var selected = selection[arr.length-1].key.dim0;
 					alert('You have selected ' + selected );
-					sendAndDrawTable(aECDataSourceUrl,"&tq=limit 5");
+					sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 5");
 					//sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=SELECT D,E,F,G,H,I,J,K WHERE B='"+selected+"'");
 					$("#Agreement").html(selected+" Details:");
 				}
@@ -88,7 +89,7 @@
 		query = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();
-		sendAndDrawTable(aECDataSourceUrl,"&tq=limit 25");
+		sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 25");
     }
 
 
