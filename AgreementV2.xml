@@ -78,8 +78,8 @@
 				if (arr.length > 0) {
 					var selected = selection[arr.length-1].key.dim0;
 					alert('You have selected ' + selected );
-					sendAndDrawTable(aECDataSourceUrl,"&tq=limit 5");
-					//sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=SELECT D,E,F,G,H,I,J,K WHERE B='"+selected+"'");
+					//sendAndDrawTable(aECDataSourceUrl,"&tq=limit 5");
+					sendAndDrawTable(aECDataSourceUrl,"&tq=SELECT D,E,F,G,H,I,J,K WHERE B='"+selected+"'");
 					$("#Agreement").html(selected+" Details:");
 				}
 			});
@@ -88,7 +88,7 @@
 		query = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();
-		sendAndDrawTable(aECDataSourceUrl,"&tq=limit 25");
+		//sendAndDrawTable(aECDataSourceUrl,"&tq=limit 25");
     }
 
 
