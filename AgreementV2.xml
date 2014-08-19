@@ -30,8 +30,9 @@
 	<div id="motionchart"></div>
 	<h3><div id="Agreement"><div></h3>
 	<div id="AEC_MotionChart"></div>
+   <script src="https://www.google.com/jsapi" type="text/javascript"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
-  <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+
 
   <script type="text/javascript">
 	var prefs = new _IG_Prefs();
