@@ -43,6 +43,7 @@
 	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
     var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
 	var motionchart;
+	var chart;
 	var query ;
 	_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
