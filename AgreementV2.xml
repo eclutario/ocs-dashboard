@@ -164,7 +164,7 @@
 		this.handleErrorResponse(response);
 	  } else {
 		this.currentDataTable = response.getDataTable();
-		Alert('Get Table was called');
+		alert('Get Table was called');
 		this.draw();
 	  }
 	};
