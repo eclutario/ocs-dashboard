@@ -60,9 +60,9 @@
 
 	function sendAndDrawTable(source,queryString)
 	{
-		tableQuery && tableQuery.abort();
-		tableQuery = new google.visualization.Query(source + queryString);
-		var queryWrapper = new QueryWrapper(tableQuery, chart, {width: 1200, height:600}, aec);
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		var queryWrapper = new QueryWrapper(query, chart, {width: 1200, height:600}, aec);
 		queryWrapper.sendAndDraw();	
 	}
 	function sendAndDraw(source,container,queryString) {
