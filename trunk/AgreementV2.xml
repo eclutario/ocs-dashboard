@@ -79,7 +79,7 @@
 					var selected = selection[arr.length-1].key.dim0;
 					alert('You have selected ' + selected );
 					//sendAndDrawTable(aECDataSourceUrl,"&tq=limit 5");
-					sendAndDrawTable(aECDataSourceUrl,"&tq=SELECT D,E,F,G,H,I,J,K WHERE B='"+selected+"'");
+					sendAndDrawTable(aECDataSourceUrl,"&tq=SELECT * WHERE B='"+selected+"'");
 					$("#Agreement").html(selected+" Details:");
 				}
 			});
