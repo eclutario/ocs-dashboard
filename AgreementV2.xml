@@ -46,6 +46,7 @@
 	var motionchart;
 	var chart;
 	var query ;
+	var tableQuery;
 	_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 	function loadVisualizationAPI() {
@@ -58,9 +59,8 @@
 
 	function sendAndDrawTable(source,container,queryString)
 	{
-		alert(container);
 		chart = new google.visualization.Table(container);
-		var tableQuery;
+
 		tableQuery && tableQuery.abort();
 		tableQuery = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(tableQuery, chart, {width: 1200, height:600}, container);
@@ -88,6 +88,7 @@
 		query = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();
+		sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 25");
     }
 
 
