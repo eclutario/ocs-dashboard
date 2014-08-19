@@ -47,21 +47,22 @@
 	var chart;
 	var query ;
 	var tableQuery;
+	var aec = document.getElementById('AEC_MotionChart');
 	_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 	function loadVisualizationAPI() {
 		gadgetHelper = new google.visualization.GadgetHelper();
-		query =dataSourceUrl;// gadgetHelper.createQueryFromPrefs(prefs);
-		chart = new google.visualization.Table(container);	
+		query = gadgetHelper.createQueryFromPrefs(prefs);
+		chart = new google.visualization.Table(aec);	
 		//google.load('visualization', '1', {'packages' : ['motionchart','table']});
 		google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	};
 
-	function sendAndDrawTable(source,container,queryString)
+	function sendAndDrawTable(source,queryString)
 	{
-		tableQuery && tableQuery.abort();
-		tableQuery = new google.visualization.Query(source + queryString);
-		var queryWrapper = new QueryWrapper(tableQuery, chart, {width: 1200, height:600}, container);
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		var queryWrapper = new QueryWrapper(query, chart, {width: 1200, height:600}, aec);
 		queryWrapper.sendAndDraw();	
 	}
 	function sendAndDraw(source,container,queryString) {
@@ -77,7 +78,7 @@
 				if (arr.length > 0) {
 					var selected = selection[arr.length-1].key.dim0;
 					alert('You have selected ' + selected );
-					sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 5");
+					sendAndDrawTable(aECDataSourceUrl,"&tq=limit 5");
 					//sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=SELECT D,E,F,G,H,I,J,K WHERE B='"+selected+"'");
 					$("#Agreement").html(selected+" Details:");
 				}
@@ -87,7 +88,7 @@
 		query = new google.visualization.Query(source + queryString);
 		var queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();
-		//sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_MotionChart'),"&tq=limit 25");
+		sendAndDrawTable(aECDataSourceUrl,"&tq=limit 25");
     }
 
 
