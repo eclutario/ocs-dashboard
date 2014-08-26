@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="Google Spredsheet Sample Gadget"
+                 description="OCS Bubble Report"
+                 author="Victor Alarcon" author_email="v.alarcon@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 height="400">
+        <Require feature="dynamic-height"/>
+    </ModulePrefs>
+    <Content type="html"><![CDATA[
+	<script type="text/javascript" charset="utf8" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+	<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+   <script>
+        // Assign handlers immediately after making the request,
+        // and remember the jqxhr object for this request
+        var jqxhr = $.getJSON("https://script.google.com/a/macros/irri.org/s/AKfycbxMOTfVX5hUrGNhEfBHoSZGexlZMTL-wd8wMKammgvXu8byNWc/exec?id=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&sheet=GraphSource", function () {
+            console.log("success");
+        })
+          .done(function () {
+              console.log("second success");
+          })
+          .fail(function () {
+              console.log("error");
+          })
+          .always(function () {
+              console.log("complete");
+          });
+
+        // Perform other work here ...
+
+        // Set another completion function for the request above
+        jqxhr.complete(function () {
+            console.log("second complete");
+        });
+    </script>
+
+	<body>
+		<table id="exampleTable">
+			<thead> 
+				<tr>
+					<th>Year</th>
+					<th>Month</th>
+					<th>Savings</th>
+				</tr>
+			</thead>
+			<tbody>
+				 <tr>
+			  <td>2012</td>
+			  <td>January</td>
+			  <td>$100</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>February</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>March</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>April</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>May</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>June</td>
+			  <td>$180</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>July</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>August</td>
+			  <td>$230</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>September</td>
+			  <td>$40</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>October</td>
+			  <td>$16</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>November</td>
+			  <td>$590</td>
+			</tr>
+			<tr>
+			  <td>2012</td>
+			  <td>December</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2013</td>
+			  <td>January</td>
+			  <td>$100</td>
+			</tr>
+			<tr>
+			  <td>2013</td>
+			  <td>February</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2013</td>
+			  <td>March</td>
+			  <td>$80</td>
+			</tr>
+			<tr>
+			  <td>2013</td>
+			  <td>April</td>
+			  <td>$80</td>
+			</tr>
+			</tbody>
+		</table>
+
+	</body>
+  ]]>
+    </Content>
+</Module>
