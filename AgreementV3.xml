@@ -92,9 +92,9 @@
 		    'chartType': 'Table',
 		    'containerId': container
 		});		//var tableQuery;
-		query && query.abort();
-		query = new google.visualization.Query(source + queryString);
-		tableWrapper = new QueryWrapper(query, chart, { width: 800, height: 600 }, container, 'dashboardAEC');
+		tableQuery && tableQuery.abort();
+		tableQuery = new google.visualization.Query(source + queryString);
+		tableWrapper = new QueryWrapper(tableQuery, chart, { width: 800, height: 600 }, container, 'dashboardAEC');
 		tableWrapper.sendAndDraw();
 	}
 
@@ -104,7 +104,7 @@
             'chartType': 'MotionChart',
             'containerId': 'motionchart'
         }); 
-		google.visualization.events.addListener(motionChart, 'ready', function () {
+		<!--google.visualization.events.addListener(motionChart, 'ready', function () {
 			google.visualization.events.addListener(motionChart, 'statechange', function () {
 				// do something on statechange
 				var selection = JSON.parse(motionChart.getState()).iconKeySettings;
@@ -119,7 +119,7 @@
 					$("#Agreement").html(selected+" Details:");
 				}
 			});
-		});	  
+		});-->	  
 		query && query.abort();
 		query = new google.visualization.Query(source + queryString);
 		queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container,'dashboard');
