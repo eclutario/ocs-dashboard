@@ -79,7 +79,7 @@
 
 	function loadVisualizationAPI() {
 		gadgetHelper = new google.visualization.GadgetHelper();
-		query = gadgetHelper.createQueryFromPrefs(prefs);
+		//query = gadgetHelper.createQueryFromPrefs(prefs);
 		//chart = new google.visualization.Table(aec);	
     google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
     google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
