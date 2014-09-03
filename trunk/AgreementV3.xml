@@ -51,7 +51,7 @@
   
 	    var prefs = new _IG_Prefs();
 	    // The gviz helper for gadget specific functionality.
-	    var gadgetHelper = null;
+	    var gadgetHelper ;
 	    // The motionchart visualization
 	    var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
       var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
@@ -63,11 +63,12 @@
 	    var query;
 	    var tableWrapper;
 	    var queryWrapper;
-	    _IG_RegisterOnloadHandler(loadVisualizationAPI);
-
-	    function loadVisualizationAPI() {
 		    gadgetHelper = new google.visualization.GadgetHelper();
         google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+        _IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+	    function loadVisualizationAPI() {
+
         google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	    };
 
