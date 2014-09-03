@@ -60,13 +60,13 @@
 
 
   <script type="text/javascript">
-    google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+  
 	var prefs = new _IG_Prefs();
 	// The gviz helper for gadget specific functionality.
 	var gadgetHelper = null;
 	// The motionchart visualization
 	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
-    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
+  var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
 	var motionchart;
 	var chart;
 	var query ;
@@ -80,9 +80,9 @@
 	function loadVisualizationAPI() {
 		gadgetHelper = new google.visualization.GadgetHelper();
 		query = gadgetHelper.createQueryFromPrefs(prefs);
-		chart = new google.visualization.Table(aec);	
-		//google.load('visualization', '1', {'packages' : ['motionchart','table']});
-		google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
+		//chart = new google.visualization.Table(aec);	
+    google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+    google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	};
 
 	function sendAndDrawTable(source,container,queryString)
@@ -103,7 +103,7 @@
         motionChart = new google.visualization.ChartWrapper({
             'chartType': 'MotionChart',
             'containerId': 'motionchart'
-        }); //new google.visualization.MotionChart(container);
+        }); 
 		google.visualization.events.addListener(motionChart, 'ready', function () {
 			google.visualization.events.addListener(motionChart, 'statechange', function () {
 				// do something on statechange
