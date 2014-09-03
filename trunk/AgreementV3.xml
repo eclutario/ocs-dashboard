@@ -43,83 +43,49 @@
 
         </table>
     </div>
-	    <div id="dashboardAEC">
-        <table>
-			<tr>
-                <td style='width: 10%; font-size: smaller;' valign="top">
-                    <div id="control2"></div>
-                </td>
-                <td>
-                    <div id="Agreement"></div>
-                    <div id="AEC_Table"></div>
-                </td>
-            </tr>
-        </table>
-    </div>
+
 
 
 
   <script type="text/javascript">
   
-	var prefs = new _IG_Prefs();
-	// The gviz helper for gadget specific functionality.
-	var gadgetHelper = null;
-	// The motionchart visualization
-	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
-  var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
-	var motionchart;
-	var chart;
-	var query ;
-	var tableQuery;
-	var aec = document.getElementById('AEC_MotionChart');
-	var query;
-	var tableWrapper;
-	var queryWrapper;
-	_IG_RegisterOnloadHandler(loadVisualizationAPI);
+	    var prefs = new _IG_Prefs();
+	    // The gviz helper for gadget specific functionality.
+	    var gadgetHelper = null;
+	    // The motionchart visualization
+	    var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
+      var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
+	    var motionchart;
+	    var chart;
+	    var query ;
+	    var tableQuery;
+	    var aec = document.getElementById('AEC_MotionChart');
+	    var query;
+	    var tableWrapper;
+	    var queryWrapper;
+	    _IG_RegisterOnloadHandler(loadVisualizationAPI);
 
-	function loadVisualizationAPI() {
-		gadgetHelper = new google.visualization.GadgetHelper();
-		//query = gadgetHelper.createQueryFromPrefs(prefs);
-		//chart = new google.visualization.Table(aec);	
-    google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
-    google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
-	};
-
-	function sendAndDrawTable(source,container,queryString)
-	{
-		//chart = new google.visualization.Table(container);
-		chart = new google.visualization.ChartWrapper({
-		    'chartType': 'Table',
-		    'containerId': container
-		});		//var tableQuery;
-		tableQuery && tableQuery.abort();
-		tableQuery = new google.visualization.Query(source + queryString);
-		tableWrapper = new QueryWrapper(tableQuery, chart, { width: 800, height: 600 }, container, 'dashboardAEC');
-		tableWrapper.sendAndDraw();
-	}
+	    function loadVisualizationAPI() {
+		    gadgetHelper = new google.visualization.GadgetHelper();
+        google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+        google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
+	    };
 
 
-    function sendAndDraw(source,container,queryString) {
-        motionChart = new google.visualization.ChartWrapper({
-            'chartType': 'MotionChart',
-            'containerId': 'motionchart'
-        }); 
+
+      function sendAndDraw(source,container,queryString) {
+          motionChart = new google.visualization.ChartWrapper({
+              'chartType': 'MotionChart',
+              'containerId': 'motionchart'
+          }); 
 	  
-		query && query.abort();
-		query = new google.visualization.Query(source + queryString);
-		queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container,'dashboard');
-		queryWrapper.sendAndDraw();
-    }
+		      query && query.abort();
+		      query = new google.visualization.Query(source + queryString);
+		      queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container,'dashboard');
+		      queryWrapper.sendAndDraw();
+      }
 
-	/**
-	  var data = resp.getDataTable();
-	  var options = [];
-	  // Taken from the table element container.
-	  var spacing = 6;
-	  options['height'] = document.body.clientHeight - (spacing * 2);
-	  options['width'] = document.body.clientWidth - (spacing * 2);
-	  options['state'] = prefs.getString('initialstate');
-	**/
+
 
    </script>
 
