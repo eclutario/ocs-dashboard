@@ -104,22 +104,7 @@
             'chartType': 'MotionChart',
             'containerId': 'motionchart'
         }); 
-		<!--google.visualization.events.addListener(motionChart, 'ready', function () {
-			google.visualization.events.addListener(motionChart, 'statechange', function () {
-				// do something on statechange
-				var selection = JSON.parse(motionChart.getState()).iconKeySettings;
-				var arr = [];
-				for (var i = 0; i < selection.length; i++) {
-					arr.push(selection[i].key.dim0);
-				}
-				if (arr.length > 0) {
-					var selected = selection[arr.length-1].key.dim0;
-					//alert('You have selected ' + selected );
-				    sendAndDrawTable(aECDataSourceUrl, document.getElementById('AEC_Table'), "&tq=SELECT D,F,G,H,M  WHERE B='"+selected+"'");
-					$("#Agreement").html(selected+" Details:");
-				}
-			});
-		});-->	  
+	  
 		query && query.abort();
 		query = new google.visualization.Query(source + queryString);
 		queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container,'dashboard');
