@@ -48,7 +48,7 @@
 
 
   <script type="text/javascript">
-  
+ 		google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] }); 
 	    var prefs = new _IG_Prefs();
 	    // The gviz helper for gadget specific functionality.
 	    var gadgetHelper ;
@@ -67,7 +67,7 @@
 
 	    function loadVisualizationAPI() {
 			gadgetHelper = new google.visualization.GadgetHelper();
-			google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+			//google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
 			google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
 	    };
 
