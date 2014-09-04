@@ -28,7 +28,7 @@
 
   <Content type="html"><![CDATA[
    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
-   <script src="https://ocs-dashboard.googlecode.com/svn/trunk/QueryWrapper.js" ></script>
+   <script src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/QueryWrapper.js" ></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
    <div id="dashboard">
         <table>
