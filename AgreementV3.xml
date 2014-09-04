@@ -90,10 +90,10 @@
 		chart = new google.visualization.ChartWrapper({
 		    'chartType': 'Table',
 		    'containerId': container
-		});		//var tableQuery;
-		query && query.abort();
-		query = new google.visualization.Query(source + queryString);
-		tableWrapper = new QueryWrapper(query, chart, { width: 800, height: 600 }, container, 'dashboardAEC');
+		});		
+		tableQuery && tableQuery.abort();
+		tableQuery = new google.visualization.Query(source + queryString);
+		tableWrapper = new QueryWrapper(tableQuery, chart, { width: 800, height: 600 }, container, 'dashboardAEC');
 		tableWrapper.sendAndDraw();
 	}
 
@@ -113,7 +113,7 @@
 				}
 				if (arr.length > 0) {
 					var selected = selection[arr.length-1].key.dim0;
-					//alert('You have selected ' + selected );
+					alert('You have selected ' + selected );
 				    sendAndDrawTable(aECDataSourceUrl, document.getElementById('AEC_Table'), "&tq=SELECT D,F,G,H,M  WHERE B='"+selected+"'");
 					$("#Agreement").html(selected+" Details:");
 				}
