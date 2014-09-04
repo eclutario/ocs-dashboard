@@ -45,51 +45,7 @@
     </div>
 
 
-
-
   <script type="text/javascript">
- 		google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] }); 
-	    var prefs = new _IG_Prefs();
-	    // The gviz helper for gadget specific functionality.
-	    var gadgetHelper ;
-	    // The motionchart visualization
-	    var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
-        var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
-	    var motionchart;
-	    var chart;
-	    var query ;
-	    var tableQuery;
-	    var query;
-	    var tableWrapper;
-	    var queryWrapper;
-
-        _IG_RegisterOnloadHandler(loadVisualizationAPI);
-
-	    function loadVisualizationAPI() {
-			gadgetHelper = new google.visualization.GadgetHelper();
-			//google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
-			google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
-	    };
-
-
-
-      function sendAndDraw(source,container,queryString) {
-          motionChart = new google.visualization.ChartWrapper({
-              'chartType': 'MotionChart',
-              'containerId': 'motionchart'
-          }); 
-	  
-		      query && query.abort();
-		      query = new google.visualization.Query(source + queryString);
-		      queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container,'dashboard');
-		      queryWrapper.sendAndDraw();
-      }
-
-
-
-   </script>
-
- <script type="text/javascript">
 	  /**
 	 * A google.visualization.Query Wrapper. Sends a
 	 * query and draws the visualization with the returned data or outputs an
@@ -108,14 +64,14 @@
 	 * should support the draw(dataTable, options) method.
 	 * @constructor
 	 */
-	var QueryWrapper = function(query, visualization, visOptions, errorContainer, dashboardContainer) {
+	var QueryWrapper = function(query, visualization, visOptions, errorContainer, isDashboard) {
 
 	  this.query = query;
 	  this.visualization = visualization;
 	  this.options = visOptions || {};
 	  this.errorContainer = errorContainer;
 	  this.currentDataTable = null;
-	  this.dashboardContainer = dashboardContainer;
+	  this.isDashboard = isDashboard;
 
 	  if (!visualization || !('draw' in visualization) ||
 		  (typeof(visualization['draw']) != 'function')) {
@@ -159,8 +115,64 @@
 	  } else {
 	      this.currentDataTable = response.getDataTable();
 	      var filters = [];
-	      this.draw();
-
+	      // this.draw();
+	      switch (this.isDashboard) {
+	          case 'dashboard':
+	              var categoryFilter = new google.visualization.ControlWrapper({
+	                  'controlType': 'CategoryFilter',
+	                  'containerId': 'control1',
+	                  'options': {
+	                      'filterColumnLabel': 'Donor',
+	                      'ui': {
+	                          'labelStacking': 'Donor',
+	                          'allowTyping': false,
+	                          'allowMultiple': true,
+	                          'selectedValuesLayout': 'belowStacked'
+	                      }
+	                  },
+	                  'state': { 'selectedValues': ['.','AfricaRice'] }
+	              });
+	              filters.push(categoryFilter);
+	              var alertFilter = new google.visualization.ControlWrapper({
+	                  'controlType': 'CategoryFilter',
+	                  'containerId': 'alertFilter',
+	                  'options': {
+	                      'filterColumnLabel': 'Status',
+	                      'ui': {
+	                          'labelStacking': 'Status',
+	                          'allowTyping': false,
+	                          'allowMultiple': true,
+	                          'selectedValuesLayout': 'belowStacked'
+	                      }
+	                  }
+	              });
+	              filters.push(alertFilter);
+	              this.DrawDashboard(document.getElementById(this.isDashboard), filters);
+	              break;
+	          case 'dashboardAEC':
+	              var currentDate = new Date();
+	              var currentMonth = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+	              var currentPeriod = currentDate.getFullYear() + currentMonth;
+	              var periodFilter = new google.visualization.ControlWrapper({
+	                  'controlType': 'CategoryFilter',
+	                  'containerId': 'control2',
+	                  'options': {
+	                      'filterColumnLabel': 'Period',
+	                      'ui': {
+	                          'labelStacking': 'Period',
+	                          'allowTyping': false,
+	                          'allowMultiple': true,
+	                          'selectedValuesLayout': 'belowStacked'
+	                      }
+	                  },
+	                  'state': { 'selectedValues': ['201408'] }
+	              });
+	              filters.push(periodFilter);
+	              this.DrawDashboard(document.getElementById(this.isDashboard), filters);
+	              break;
+              default:
+	              this.draw();
+	      } 
 	  
 	  }
 	}
@@ -182,7 +194,80 @@
 	QueryWrapper.prototype.abort = function() {
 	  this.query.abort();
 	};
-  </script>    
+  </script> 
+
+  <script type="text/javascript">
+ 		google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] }); 
+	    var prefs = new _IG_Prefs();
+	    // The gviz helper for gadget specific functionality.
+	    var gadgetHelper ;
+	    // The motionchart visualization
+	    var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1HSQmC3OwmUvhnQyylZoCKYpkgfEZla4ZefeWfziWIoI&pub=1&gid=1254661792';
+        var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=133m8a5BfVs85wk-JJwBusTj3YqPckXBrZ99FUKSyAtA&pub=1&gid=1472808944';
+	    var motionchart;
+	    var chart;
+	    var query ;
+	    var tableQuery;
+	    var query;
+	    var tableWrapper;
+	    var queryWrapper;
+
+        _IG_RegisterOnloadHandler(loadVisualizationAPI);
+
+	    function loadVisualizationAPI() {
+			gadgetHelper = new google.visualization.GadgetHelper();
+			//google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+			google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,document.getElementById('motionchart'),'') });
+	    };
+
+
+
+	function sendAndDrawTable(source,container,queryString)
+	{
+		//chart = new google.visualization.Table(container);
+		chart = new google.visualization.ChartWrapper({
+		    'chartType': 'Table',
+		    'containerId': container
+		});		//var tableQuery;
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		tableWrapper = new QueryWrapper(query, chart, { width: 800, height: 600 }, container, 'dashboardAEC');
+		tableWrapper.sendAndDraw();
+	}
+
+
+    function sendAndDraw(source,container,queryString) {
+        motionChart = new google.visualization.ChartWrapper({
+            'chartType': 'MotionChart',
+            'containerId': 'motionchart'
+        }); //new google.visualization.MotionChart(container);
+		google.visualization.events.addListener(motionChart, 'ready', function () {
+			google.visualization.events.addListener(motionChart, 'statechange', function () {
+				// do something on statechange
+				var selection = JSON.parse(motionChart.getState()).iconKeySettings;
+				var arr = [];
+				for (var i = 0; i < selection.length; i++) {
+					arr.push(selection[i].key.dim0);
+				}
+				if (arr.length > 0) {
+					var selected = selection[arr.length-1].key.dim0;
+					//alert('You have selected ' + selected );
+				    sendAndDrawTable(aECDataSourceUrl, document.getElementById('AEC_Table'), "&tq=SELECT D,F,G,H,M  WHERE B='"+selected+"'");
+					$("#Agreement").html(selected+" Details:");
+				}
+			});
+		});	  
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		queryWrapper = new QueryWrapper(query, motionChart, {width: 1200, height:600}, container,'dashboard');
+		queryWrapper.sendAndDraw();
+    }
+
+
+
+   </script>
+
+   
    
    ]]>
   </Content>
