@@ -43,7 +43,7 @@
 					</div>
                 </td>
 				<td>
-                    <div id="motionchart" style='width: 90%; font-size: smaller;'></div>
+                    <div id="motionchart" ></div>
 				</td>
 			</tr>
 
