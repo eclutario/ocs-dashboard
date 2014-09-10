@@ -43,7 +43,7 @@
 					</div>
                 </td>
 				<td>
-                    <div id="motionchart"></div>
+                    <div id="motionchart" style='width: 90%; font-size: smaller;'></div>
 				</td>
 			</tr>
 
@@ -71,7 +71,6 @@
     <script type="text/javascript">
 
 	var motionChart;
-	//var dashboard
     var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1MULg2-eu5AJ8UMIYlmviumPQcSLYWWDQJFzBrPEF5DU&pub=1&gid=956012260';
 	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=11gX6Uzjxn1attBMlp--tyVnxHUpo_7kMlvJ_2oC75sE&pub=1&gid=584107057';
 	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1EDDfObUx39Q9yzfGC_kVBWFRyoYpjuFWJ7T2LwyMxtw&pub=1&gid=1520902294';
@@ -156,12 +155,7 @@
 		var query;
 		query && query.abort();
 		query = new google.visualization.Query(source + queryString);
-		queryWrapper = new QueryWrapper(query, visualization, {width: 1200, height:600}, container);
-
-		//tableWrapper = new QueryWrapper(query, chart, { allowHtml: true, width: 200, height: 200, 
-		//	cssClassNames: {headerRow: 'ui-state-default',hoverTableRow: 'ui-state-hover'}},  dashboard);
-		
-		
+		queryWrapper = new QueryWrapper(query, visualization, {width: 100%, height:600}, container);
 		queryWrapper.sendAndDraw();
     }
 
