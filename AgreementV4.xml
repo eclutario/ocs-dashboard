@@ -43,7 +43,7 @@
 					</div>
                 </td>
 				<td>
-                    <div id="motionchart" ></div>
+                    <div id="motionchart"></div>
 				</td>
 			</tr>
 
@@ -155,7 +155,7 @@
 		var query;
 		query && query.abort();
 		query = new google.visualization.Query(source + queryString);
-		queryWrapper = new QueryWrapper(query, visualization, {width: 100%, height:600}, container);
+		queryWrapper = new QueryWrapper(query, visualization, {width: 1200, height:600}, container);
 		queryWrapper.sendAndDraw();
     }
 
