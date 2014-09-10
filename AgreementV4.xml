@@ -83,7 +83,7 @@
 		'containerId': 'motionchart',
 		'options': {
             'width': 900,
-            'height': 400
+            'height': 500
 		}		
 	}); 		
 	google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,motionChart,'dashboard',"Select C, R, N, O,Q,P,A,M LABEL C 'Agreement Description' ") });
