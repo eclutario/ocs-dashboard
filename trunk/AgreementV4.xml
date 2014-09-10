@@ -30,7 +30,10 @@
    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
    <script src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/querywrapperv2.js" ></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
-   <div id="dashboard">
+	<script type="text/javascript">
+		google.load('visualization', '1.1', { packages: ['controls', 'motionchart','table'] });
+	</script>
+	<div id="dashboard">
         <table>
             <tr>
                 <td style='width: 10%; font-size: smaller;' valign="top">
