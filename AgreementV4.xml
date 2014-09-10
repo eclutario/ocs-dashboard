@@ -3,9 +3,9 @@
 
   <ModulePrefs
       title="__MSG_default_title__"
-      author="Google Engineering"
-      author_affiliation="Google Inc."
-      author_email="visualization.api+motionchart@gmail.com"
+      author="Victor Alarcon"
+      author_affiliation="IRRI"
+      author_email="v.alarcon@irri.org"
       description="__MSG_description__"
       screenshot="https://www.google.com/ig/modules/motionchart.png"
       thumbnail="https://www.google.com/ig/modules/motionchart-thm.png"
@@ -80,7 +80,11 @@
 	var selectedBusAEC;
 	motionChart = new google.visualization.ChartWrapper({
 		'chartType': 'MotionChart',
-		'containerId': 'motionchart'
+		'containerId': 'motionchart',
+		'options': {
+            'width': 900,
+            'height': 400
+		}		
 	}); 		
 	google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,motionChart,'dashboard',"Select C, R, N, O,Q,P,A,M LABEL C 'Agreement Description' ") });
  
