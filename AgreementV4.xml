@@ -82,7 +82,7 @@
 		'chartType': 'MotionChart',
 		'containerId': 'motionchart',
 		'options': {
-            'width': 900,
+            'width': 1200,
             'height': 600
 		}		
 	}); 		
