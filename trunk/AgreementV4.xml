@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+
+  <ModulePrefs
+      title="__MSG_default_title__"
+      author="Google Engineering"
+      author_affiliation="Google Inc."
+      author_email="visualization.api+motionchart@gmail.com"
+      description="__MSG_description__"
+      screenshot="https://www.google.com/ig/modules/motionchart.png"
+      thumbnail="https://www.google.com/ig/modules/motionchart-thm.png"
+      height="350">
+    <Require feature="settitle" />
+    <Require feature="idi" />
+    <Require feature="locked-domain" />
+    <Require feature="setprefs" />
+  </ModulePrefs>
+
+  <UserPref name="_table_query_url" display_name="__MSG_tablequeryurl__" required="true" />
+  <UserPref name="title" display_name="__MSG_title__" required="false" />
+  <UserPref name="initialstate" display_name="__MSG_initialstate__" required="false" />
+  <UserPref name="_table_query_refresh_interval" display_name="__MSG_tablequeryrefreshinterval__" default_value="300" datatype="enum" required="false">
+    <EnumValue value="0" display_value="__MSG_never__" />
+    <EnumValue value="60" display_value="1" />
+    <EnumValue value="300" display_value="5" />
+    <EnumValue value="1800" display_value="30" />
+  </UserPref>
+
+  <Content type="html"><![CDATA[
+   <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+   <script src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/QueryWrapper2.js" ></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
+   <div id="dashboard">
+        <table>
+            <tr>
+                <td style='width: 10%; font-size: smaller;' valign="top">
+					<div style='font-size: 0.85em;'>
+						<div  id="donorFilter" ></div>
+						<div id="alertFilter" ></div>
+					</div>
+                </td>
+				<td>
+                    <div id="motionchart"></div>
+				</td>
+			</tr>
+
+        </table>
+    </div>
+	<p>&nbsp;</p>
+	<div id="dashboardAEC">
+        <table width='100%' >
+			<tr>
+                <td  style='width: 16%; font-size: smaller; padding-top: 2em' valign='top' >
+                    <div style='font-size: 0.85em;'><div id="periodFilter" ></div></div>
+                </td>
+                <td valign='top' style='width: 30%; font-size: smaller; padding-top: 2em'>
+                    <div id="Agreement"></div>
+                    <div id="AEC_Table"  style='font-size: smaller;' ></div>
+                </td>
+                <td valign='top' style='width: 30%; font-size: smaller; padding-top: 2em'>
+                    <div id="BUS" ></div>
+                    <div id="BUS_AEC"  style='font-size: smaller;'></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+
+	var motionChart;
+	//var dashboard
+    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1MULg2-eu5AJ8UMIYlmviumPQcSLYWWDQJFzBrPEF5DU&pub=1&gid=956012260';
+	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=11gX6Uzjxn1attBMlp--tyVnxHUpo_7kMlvJ_2oC75sE&pub=1&gid=584107057';
+	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1EDDfObUx39Q9yzfGC_kVBWFRyoYpjuFWJ7T2LwyMxtw&pub=1&gid=1520902294';
+	var query;
+	var tableWrapper;
+	var queryWrapper;
+	var selectedBusAEC;
+	motionChart = new google.visualization.ChartWrapper({
+		'chartType': 'MotionChart',
+		'containerId': 'motionchart'
+	}); 		
+	google.setOnLoadCallback(function() { sendAndDraw(dataSourceUrl,motionChart,'dashboard',"Select C, R, N, O,Q,P,A,M LABEL C 'Agreement Description' ") });
+ 
+	function sendAndDrawTable(source,dashboard,container,queryString)
+	{
+		//chart = new google.visualization.Table(container);
+		chart = new google.visualization.ChartWrapper({
+		    'chartType': 'Table',
+		    'containerId': container
+		});		//var tableQuery;
+
+		var query;
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		tableWrapper = new QueryWrapper(query, chart, { allowHtml: true, width: 200, height: 200, 
+			cssClassNames: { hoverTableRow: 'ui-state-hover'}},  dashboard);
+		tableWrapper.sendAndDraw();
+	}
+	function isEmptyObject(obj) {
+		return JSON.stringify(obj) == '{}';
+	}
+	
+	function AddFilter(filters,column) {
+		var condition = '';
+		if(filters.length> 0) {
+			condition = condition + "Where (";
+			var j = 1;
+			for(var i = 0 ; i < filters.length; i++) {
+				condition = condition + column+"='"+ filters[i] + "'";
+				j++;
+				if(j <= filters.length) {
+					condition = condition + " OR ";
+				}				
+			}
+			condition = condition + ") ";
+		}
+		return condition;
+	}
+
+		//Motion Chart events
+		google.visualization.events.addListener(motionChart, 'ready', function () {
+				google.visualization.events.addListener(motionChart, 'statechange', function () {
+					// do something on statechange
+					var chartState = motionChart.getState();
+					if( !isEmptyObject(chartState)) {
+						var selection = JSON.parse(chartState).iconKeySettings;
+						var arr = [];
+						for (var i = 0; i < selection.length; i++) {
+							arr.push(selection[i].key.dim0);
+						}
+						if (arr.length > 0) {
+							var aecSelected = AddFilter(arr,"A");//selection[arr.length-1].key.dim0;
+							var url = aECDataSourceUrl+"&tq=SELECT B,C,D,E,F "+aecSelected;
+							sendAndDrawTable(aECDataSourceUrl, "dashboardAEC",document.getElementById('AEC_Table'), "&tq=SELECT B,C,D,E,F "+aecSelected);
+							selectedBusAEC = AddFilter(arr,"B");
+							var chart = new google.visualization.Table(document.getElementById('BUS_AEC'));
+							sendAndDraw(bus_AEC_Url,chart,"BUS_AEC","&tq=SELECT J,D,E,F,G,H "+selectedBusAEC+ "and J=201408 order by D, E label E 'AEC'  ")
+							$("#Agreement").html("Agreement Section");
+							$("#BUS").html("BUS Section");	
+							var isVisible=$("#dashboardAEC").is(":visible");
+							if(isVisible!=true) {
+								$("#dashboardAEC").show(1000);	
+							}								
+						
+						}
+					}
+				});
+		});	
+	
+	
+    function sendAndDraw(source,visualization, container,queryString) {
+		var query;
+		query && query.abort();
+		query = new google.visualization.Query(source + queryString);
+		queryWrapper = new QueryWrapper(query, visualization, {width: 1200, height:600}, container);
+
+		//tableWrapper = new QueryWrapper(query, chart, { allowHtml: true, width: 200, height: 200, 
+		//	cssClassNames: {headerRow: 'ui-state-default',hoverTableRow: 'ui-state-hover'}},  dashboard);
+		
+		
+		queryWrapper.sendAndDraw();
+    }
+
+  </script>
+
+   
+   
+   ]]>
+  </Content>
+</Module>
