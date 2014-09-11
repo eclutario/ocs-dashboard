@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="Google Spredsheet Sample Gadget"
+                 description="OCS Bubble Report"
+                 author="Victor Alarcon" author_email="v.alarcon@irri.org"
+                 author_link="www.irri.org"
+                 title_url="www.irri.org"
+                 height="400">
+        <Require feature="dynamic-height"/>
+    </ModulePrefs>
+    <Content type="html"><![CDATA[
+  
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+		<script>
+			d3.select("body").append("p").text("Hello World");
+		</script>
+  
+  ]]>
+    </Content>
+</Module>
