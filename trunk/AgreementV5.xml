@@ -33,7 +33,7 @@
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
 	
-	<script type="text/javascript"  src="DashboardWrapper.js"></script>
+	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
 
 	<script type="text/javascript">
 		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart'] });
