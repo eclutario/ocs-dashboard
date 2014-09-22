@@ -162,7 +162,7 @@
 							var agreement=data.getFormattedValue(item.row, 0);
 							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
 							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT B,C,D,E,F,H where A='"+agreement+"' and H="+period+ " label B 'Agreement', C 'AEC_Description', D 'Budget', E 'Expenses', F 'Balance'");
-							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT J,D,E,F,G,H where A='"+agreement+"' and J="+period+ " order by D, E label E 'AEC'");
+							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT J,D,E,sum(F),sum(G),sum(H) where A='"+agreement+"' and J="+period+ " group by J,D, E  label D 'BUS', E 'AEC' , SUM(F) 'Cumulated Budget', SUM(G) 'Cumulated Expenses', SUM(H) 'Cumulated Balance'");
 							$("#Agreement").html("Agreement Section");							
 							$("#BUS").html("BUS Section");	
 							$("#dialog").dialog({
