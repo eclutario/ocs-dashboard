@@ -31,10 +31,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/redmond/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-
-	
 	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
-
 	<script type="text/javascript">
 		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart'] });
 	</script>
@@ -46,9 +43,11 @@
 				activate: 	function (event, ui) {
 								if(ui.newTab.index()==1) {
 									$("#filters").hide(1000);
+									$("#dashboardAEC").hide(1000);
 								}
 								else {
-									$("#filters").show(1000);								
+									$("#filters").show(1000);		
+									$("#dashboardAEC").show(1000);									
 								}
 							}
 				});
@@ -197,7 +196,7 @@
 			var query;
 			query && query.abort();
 			query = new google.visualization.Query(source + queryString);
-			tableWrapper = new DashboardWrapper(query, chart, { allowHtml: true, width: 900, height: 600, 
+			tableWrapper = new DashboardWrapper(query, chart, { allowHtml: true, width: 900, height: 600, showRowNumber:true,
 				cssClassNames: { hoverTableRow: 'ui-state-hover'}},  null);
 			tableWrapper.sendAndDraw();
 		}		
