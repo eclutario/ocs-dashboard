@@ -61,7 +61,7 @@
 	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=11gX6Uzjxn1attBMlp--tyVnxHUpo_7kMlvJ_2oC75sE&pub=1&gid=61228225';
 	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1y0yWYwFDO2AsrmroAeUYPHPlzXsU4wyS8_l379phC_I&pub=1&gid=82694161';
 	var query;
-	//var tableWrapper;
+	var tableWrapper;
 	//var queryWrapper;
 	//var selectedBusAEC;
 
@@ -161,7 +161,7 @@
 							var str=GetAgreementInfo(data,item.row);
 							var agreement=data.getFormattedValue(item.row, 0);
 							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
-							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT B,C,D,E,F,H where A='"+agreement+"' and H="+period+ " label B 'Agreement', C 'AEC_Description', D 'Budget', E 'Expenses', F 'Balance'");
+							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT B,C,D,E,F,H where A='"+agreement+"' and H="+period+ " label B 'Agreement', C 'AEC Description', D 'Budget', E 'Expenses', F 'Balance'");
 							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT J,D,E,sum(F),sum(G),sum(H) where A='"+agreement+"' and J="+period+ " group by J,D, E  label D 'BUS', E 'AEC' , SUM(F) 'Cumulated Budget', SUM(G) 'Cumulated Expenses', SUM(H) 'Cumulated Balance'");
 							$("#Agreement").html("Agreement Section");							
 							$("#BUS").html("BUS Section");	
@@ -189,6 +189,16 @@
 		//motionQuery = new google.visualization.Query(dataSourceUrl + "Select C, R, N, O,Q,P,A,M LABEL C 'Agreement Description' ");
         //chart.draw(motionQuery);
 
+		function GetBusAECInfo(data, row) {
+			var status;
+			if(data!=null) {
+				var table = "<table class='google-visualization-table-table'><tbody>";
+				var agreement = '<tr class="google-visualization-table-tr-even" ><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">BUS/AEC: </span></td><td >' +data.getFormattedValue(row, 1) + ' '+ data.getFormattedValue(row, 2)+ '</td></tr>';
+				var str = table+agreement+'</tbody></table>';	
+				return str;
+			}	
+			return "";
+		}
 		function sendAndDrawTable(source,container,queryString)
 		{
 			chart = new google.visualization.Table(container);
@@ -198,6 +208,27 @@
 			query = new google.visualization.Query(source + queryString);
 			tableWrapper = new DashboardWrapper(query, chart, { allowHtml: true, width: 900, height: 600, showRowNumber:true,
 				cssClassNames: { hoverTableRow: 'ui-state-hover'}},  null);
+			google.visualization.events.addListener(chart, 'ready', function () {	
+				google.visualization.events.addListener(chart, 'select', function () {		
+					var selection = chart.getSelection();				
+					if( selection != null && selection.length > 0){
+						var item = selection[0];
+						if (item.row != null) {
+							var data = tableWrapper.GetDataTable();
+							if(data!=null) {
+								var str=GetBusAECInfo(data,item.row);
+								$("#dialog").dialog({
+									modal: true, 
+									height: 480, 
+									width: 500,
+									title: 'BUS AEC Details'
+								});
+								$("#dialog").html(str);
+							}						
+						}						
+					}
+				});
+			});
 			tableWrapper.sendAndDraw();
 		}		
  	}
