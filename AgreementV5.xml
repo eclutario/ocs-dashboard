@@ -111,7 +111,7 @@
 				
 				colorAxis : { minValue: 10, maxValue: 25, colors:['green', 'yellow', 'red']},
 				sortBubblesBySize: true,
-				//tooltip: { trigger: 'none'},
+				tooltip: { trigger: 'none'},
 				legend: {position: 'right', textStyle: {color: 'blue', fontSize: 10}}
 			}	
 		});
