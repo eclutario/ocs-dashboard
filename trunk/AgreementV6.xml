@@ -286,11 +286,11 @@
 				<table width='100%' >
 					<tr>
 
-						<td valign='top' style=' font-size: smaller; padding-top: 2em'>
+						<td valign='top' style='width: 50%; font-size: smaller; padding-top: 2em'>
 							<div id="Agreement"></div>
 							<div id="AEC_Table"  style='font-size: smaller;' ></div>
 						</td>
-						<td valign='top' style=' font-size: smaller; padding-top: 2em'>
+						<td valign='top' style='width: 50%; font-size: smaller; padding-top: 2em'>
 							<div id="BUS" ></div>
 							<div id="BUS_AEC"  style='font-size: smaller;'></div>
 						</td>
