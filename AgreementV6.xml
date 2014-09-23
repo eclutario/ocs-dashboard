@@ -180,9 +180,9 @@
 							var agreement=data.getFormattedValue(item.row, 0);
 							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
 							//period bus, aec, budget, expenses,  balance where  agreement = and period =
-							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT B,C,E,F,G,H where A='"+agreement+"' and D="+period+ " label B 'Agreement', C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true, width: 600, height: 600, showRowNumber:true,
+							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT B,C,E,F,G,H where A='"+agreement+"' and D="+period+ " label B 'Agreement', C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true, width: 800, height: 600, showRowNumber:true,
 				cssClassNames: { hoverTableRow: 'ui-state-hover'}});
-							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT K,A,B,C,D,E,F,G,H,I where K='"+agreement+"' and J="+period+ " order by K,A,C  label C 'Start Date', D 'End Date',  E 'Extension Date', F 'Elapsed Period' , G 'Cumulated Budget', H 'Cumulated Expenses', I 'Cumulated Balance' ",busAecFormatters,{ allowHtml: true, width: 500, height: 600, showRowNumber:true,
+							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT K,A,B,C,D,E,F,G,H,I where K='"+agreement+"' and J="+period+ " order by K,A,C  label C 'Start Date', D 'End Date',  E 'Extension Date', F 'Elapsed Period' , G 'Cumulated Budget', H 'Cumulated Expenses', I 'Cumulated Balance' ",busAecFormatters,{ allowHtml: true, width: 400, height: 600, showRowNumber:true,
 				cssClassNames: { hoverTableRow: 'ui-state-hover'}});
 							$("#Agreement").html("Agreement Section");							
 							$("#BUS").html("BUS Section");	
