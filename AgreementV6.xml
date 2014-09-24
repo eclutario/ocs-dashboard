@@ -32,12 +32,17 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
+	<style type='text/css'>
+	 .smaller-font {
+		font-size:  12px;
+	  }
+	</style>
 	<script type="text/javascript">
 		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart'] });
 	</script>
 	<script>
 		$(document).ready(function() {
-			$('#dashboard').css('font-size', '.8em');
+			$('#AgrReport').css('font-size', '.8em');
 			$( "#tabs" ).tabs({
 				collapsible: true,
 				activate: 	function (event, ui) {
@@ -124,12 +129,12 @@
 		function GetBUS_AECFormatters()
 		{
 			var numberFormatter= GetNumberFormatter();
-			return {formatter:numberFormatter, columns: [7,8,9] };
+			return {formatter:numberFormatter, columns: [6,7,8] };
 		}
 		function GetAGR_AECFormatters()
 		{
 			var numberFormatter= GetNumberFormatter();
-			return {formatter:numberFormatter, columns: [2,3,4] };
+			return {formatter:numberFormatter, columns: [1,2,3] };
 		}		
 		function GetAgreementInfo(data, row) {
 			var status;
@@ -164,6 +169,9 @@
 			}	
 			return "";
 		}
+		var cssClassNames = {
+			'hoverTableRow': 'ui-state-hover smaller-font',
+		};
 		var busAecFormatters = [GetBUS_AECFormatters()];
 		var agrAecFormatters = [GetAGR_AECFormatters()];
 		var queryWrapper = new DashboardWrapper(query, bubbleChart, '', document.getElementById('dashboard'));
@@ -180,10 +188,10 @@
 							var agreement=data.getFormattedValue(item.row, 0);
 							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
 							//period bus, aec, budget, expenses,  balance where  agreement = and period =
-							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT B,C,E,F,G,H where A='"+agreement+"' and D="+period+ " label B 'Agreement', C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true,  showRowNumber:true,
-				cssClassNames: { hoverTableRow: 'ui-state-hover'}});
-							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT K,A,B,C,D,E,F,G,H,I where K='"+agreement+"' and J="+period+ " order by K,A,C  label C 'Start Date', D 'End Date',  E 'Extension Date', F 'Elapsed Period' , G 'Cumulated Budget', H 'Cumulated Expenses', I 'Cumulated Balance' ",busAecFormatters,{ allowHtml: true, showRowNumber:true,
-				cssClassNames: { hoverTableRow: 'ui-state-hover'}});
+							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT C,E,F,G where A='"+agreement+"' and D="+period+ " label  C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true,  showRowNumber:true,
+				'cssClassNames': cssClassNames});
+							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT A,B,C,D,E,F,G,H,I where K='"+agreement+"' and J="+period+ " order by A,C  label C 'Start Date', D 'End Date',  E 'Extension Date', F 'Elapsed Period' , G 'Cumulated Budget', H 'Cumulated Expenses', I 'Cumulated Balance' ",busAecFormatters,{ allowHtml: true, showRowNumber:true,
+				'cssClassNames': cssClassNames});
 							$("#Agreement").html("Agreement Section");							
 							$("#BUS").html("BUS Section");	
 							$("#dialog").dialog({
@@ -229,6 +237,9 @@
 			query && query.abort();
 			query = new google.visualization.Query(source + queryString);
 			var tableWrapper = new DashboardWrapper(query, chart, options,  null);
+			//google.visualization.events.addListener(chart, 'ready', function () {	
+				//$('#AgrReport').css('font-size', '.8em');
+			//});
 			tableWrapper.sendAndDraw(formatters);
 		}		
  	}
@@ -239,70 +250,71 @@
 
 <body>
 <br />
-
-	<div id="dashboard">
-				<table width='100%'>
-					<tr>
-						<td style='width: 10%; font-size: smaller;' valign="top">
-							<div id="filters" style='font-size: 0.85em;'>
-								<div  id="donorFilter" ></div>
-								<div id="alertFilter" ></div>
-								<div id="periodFilter" ></div>
-							</div>
-						</td>
-						<td style='width: 90%; font-size: smaller;' valign="top">
-							<div id="tabs">
-								<ul>
-									<li><a href="#tabs-1">Grant Execution-Agreement Level</a></li>
-									<li><a href="#tabs-2">Grant Execution Trends-ALL</a></li>
-
-								</ul>
-								<div id="tabs-1">
-									<div>
-										<span style="background-color: yellow; display: block; height: 10px;width: 10px; float:left" ></span> 
-										<span >Warning (>10% and <25%)</span>
-									</div>
-									<div>
-										<span style="background-color: green; display: block; height: 10px;width: 10px; float:left" ></span> 
-										<span >Normal (<=10%)</span>
-									</div>
-									<div>
-										<span style="background-color: red; display: block; height: 10px;width: 10px; float:left" ></span> 
-										<span >Alert (>=25%)</span>
-									</div>
-
-									<div id="bubblechart" ></div>								
+	<div id="AgrReport" style='font-size: 0.85em;'> 
+		<div id="dashboard">
+					<table width='100%'>
+						<tr>
+							<td style='width: 10%; font-size: smaller;' valign="top">
+								<div id="filters" style='font-size: 0.85em;'>
+									<div  id="donorFilter" ></div>
+									<div id="alertFilter" ></div>
+									<div id="periodFilter" ></div>
 								</div>
-								<div id="tabs-2">
-									<div id="motionchart"></div>
-								</div>								
-						</td>
-					</tr>
+							</td>
+							<td style='width: 90%; font-size: smaller;' valign="top">
+								<div id="tabs">
+									<ul>
+										<li><a href="#tabs-1">Grant Execution-Agreement Level</a></li>
+										<li><a href="#tabs-2">Grant Execution Trends-ALL</a></li>
 
-				</table>
-			</div>
-			<p>&nbsp;</p>
-			<div id="dashboardAEC">
-				<table width='100%' >
-					<tr>
+									</ul>
+									<div id="tabs-1">
+										<div style='font-size: 0.85em;'>
+											<span style="background-color: yellow; display: block; height: 8px;width: 8px; float:left" ></span> 
+											<span   style='font-size: 0.85em;'>Warning (>10% and <25%)</span>
+										</div>
+										<div style='font-size: 0.85em;'>
+											<span style="background-color: green; display: block; height: 8px;width: 8px; float:left" ></span> 
+											<span style='font-size: 0.85em;'>Normal (<=10%)</span>
+										</div>
+										<div style='font-size: 0.85em;'>
+											<span style="background-color: red; display: block; height: 8px;width: 8px; float:left" ></span> 
+											<span style='font-size: 0.85em;'>Alert (>=25%)</span>
+										</div>
 
-						<td valign='top' style='width: 50%; font-size: smaller; padding-top: 2em'>
-							<div id="Agreement"></div>
-							<div id="AEC_Table"  style='font-size: smaller;' ></div>
-						</td>
-						<td valign='top' style='width: 50%; font-size: smaller; padding-top: 2em'>
-							<div id="BUS" ></div>
-							<div id="BUS_AEC"  style='font-size: smaller;'></div>
-						</td>
-					</tr>
-				</table>
-			</div>
+										<div id="bubblechart" ></div>								
+									</div>
+									<div id="tabs-2">
+										<div id="motionchart"></div>
+									</div>								
+							</td>
+						</tr>
 
-	
-	</div>
-    <div id="dialog" style='font-size: 0.85em;'>
-        
-    </div>		
+					</table>
+				</div>
+				<p>&nbsp;</p>
+				<div id="dashboardAEC">
+					<table width='100%' >
+						<tr>
+
+							<td valign='top' style='width: 35%; font-size: smaller; padding-top: 2em'>
+								<div id="Agreement"></div>
+								<div id="AEC_Table" style='font-size: 0.85em;' ></div>
+							</td>
+							<td valign='top' style='width: 65%; font-size: smaller; padding-top: 2em'>
+								<div id="BUS" ></div>
+								<div id="BUS_AEC"  style='font-size: 0.85em;'></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+		
+		</div>
+		<div id="dialog" style='font-size: 0.85em;'>
+			
+		</div>	
+	</div>	
    
    ]]>
   </Content>
