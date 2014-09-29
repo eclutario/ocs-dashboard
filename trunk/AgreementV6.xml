@@ -33,9 +33,21 @@
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
 	<style type='text/css'>
-	 .smaller-font {
-		font-size:  12px;
-	  }
+		.infowindow {
+			 font-family: sans-serif;
+			 font-size: 0.6em;
+		}
+		.mctable {
+			 font-family: sans-serif;
+			 font-size: 0.7em;
+			 border: 1px solid Gray;
+		}
+		.mctableheader {
+			 font-family: sans-serif;
+			 font-size: 0.6em;
+			 background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(249, 250, 253) 30%, rgb(238, 242, 247) 60%, rgb(228, 233, 244) 100%) repeat scroll 0 0 transparent;
+			 border: 1px solid Gray;
+		}
 	</style>
 	<script type="text/javascript">
 		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart'] });
@@ -98,8 +110,8 @@
 	{
 		var query;
 		query && query.abort();
-		
-		var queryString = "&tq=SELECT A,N,O,S,T,B,G,M,I,J,K,L,C,D,E,Q,H,P Format N '0', O '0' ";
+                                      0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7 
+		var queryString = "&tq=SELECT A,N,O,S,T,B,G,M,I,J,K,L,C,D,E,Q,H,P";
 		query = new google.visualization.Query(dataSourceUrl + queryString);
 		var bubbleChart = new google.visualization.ChartWrapper({
 			'fontSize': 10,
@@ -112,7 +124,7 @@
 				height: 600,
 				width: 900,
 				backgroundColor: 'transparent',
-				bubble: {textStyle: {color: 'transparent' },stroke: "transparent"},
+				bubble: {textStyle: {color: 'transparent' },stroke: "transparent",opacity: 0.8},
 				
 				colorAxis : { minValue: 10, maxValue: 25, colors:['green', 'yellow', 'red']},
 				sortBubblesBySize: true,
@@ -123,9 +135,14 @@
 		
 		function GetNumberFormatter () {
 			return  new google.visualization.NumberFormat(
-			  {fractionDigits:0, negativeColor: 'red', negativeParens: true});
+			  {fractionDigits:0, negativeColor: "#FF0000", negativeParens: true});
 		}
 		
+		function GetAgreementFormatter()
+		{
+			var numberFormatter= GetNumberFormatter();
+			return {formatter:numberFormatter, columns: [8,10,11] };		
+		}
 		function GetBUS_AECFormatters()
 		{
 			var numberFormatter= GetNumberFormatter();
@@ -135,20 +152,29 @@
 		{
 			var numberFormatter= GetNumberFormatter();
 			return {formatter:numberFormatter, columns: [1,2,3] };
-		}		
+		}
+		function setNegativeColor(data,row, column)
+		{
+			if(data.getColumnType(column)!= 'number' )
+				return data.getFormattedValue(row, column);
+			var number = data.getValue(row, column);
+			if(number < 0)
+				return '<font color="red">'+data.getFormattedValue(row, 11)+'</font>';
+			return data.getFormattedValue(row, column);
+		}
 		function GetAgreementInfo(data, row) {
 			var status;
 			if(data!=null) {
-				var table = "<table class='google-visualization-table-table'><tbody>";
+				var table = "<table class='infowindow'><tbody>";
 				var agreement = '<tr class="google-visualization-table-tr-even" ><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Agreement: </span></td><td >' +data.getFormattedValue(row, 0) + ' '+ data.getFormattedValue(row, 5)+ '</td></tr>';
 				var donor = '<tr class="google-visualization-table-tr-odd" ><td class="google-visualization-table-th gradient""><span style="font-weight: bold">Donor:</span> </td><td >' +data.getFormattedValue(row, 7) +  '</td></tr>';
 				var stardDate = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient""> <span style="font-weight: bold">Start Date</span><font color="red">*</font> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 12)))+ '</td></tr>';
 				var endDate = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient""> <span style="font-weight: bold">End Date:</span> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 13)))+ '</td></tr>';						
 				var extensionDate = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Extension Date</span> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 14)))+ '</td></tr>';						
 				var elapsedPeriod = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Elapsed Period</span><font color="red">**</font> </td><td>' + data.getFormattedValue(row, 16)+ '</td></tr>';
-				var accumulatedBudget = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Budget(in USD)</span><font color="red">**</font> </td><td>' + data.getFormattedValue(row, 9)+ '</td></tr>';
-				var accumulatedExpenses = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Expenses(in USD)</span><font color="red">**</font> </td><td>' + data.getFormattedValue(row, 10)+ '</td></tr>';
-				var accumulatedBalance = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Balance(in USD)</span><font color="red">**</font> </td><td>' + data.getFormattedValue(row, 11)+ '</td></tr>';
+				var accumulatedBudget = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Budget(in USD)</span><font color="red">**</font> </td><td>' + setNegativeColor(data,row,9)+ '</td></tr>';
+				var accumulatedExpenses = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Expenses(in USD)</span><font color="red">**</font> </td><td>' +setNegativeColor(data,row,10)+ '</td></tr>';
+				var accumulatedBalance = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Balance(in USD)</span><font color="red">**</font> </td><td>' + setNegativeColor(data,row,11)+ '</td></tr>';
 				var execution = data.getFormattedValue(row, 17);
 				if(execution <= 10) {
 					status = '<font color="green">';
@@ -160,9 +186,9 @@
 					}
 				}
 				
-				var diffBudgetExec = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold">Difference in Budget Execution<font color="red">**</font></span></td><td><span style="font-weight: bold">'+execution + '%</span></td></tr>';
+				var diffBudgetExec = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Difference in Budget Execution<font color="red">**</font></span></td><td><span style="font-weight: bold">'+execution + '%</span></td></tr>';
 				var emptyRow = '<tr  ><td colspan="2">&nbsp;</td></tr>';
-				var remark1 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">*</font>  January 2013 was used as a start date of all ongoing grants, <span style="font-weight: bold">started before 2013</span></td></tr>';
+				var remark1 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">*</font>  January 2013 was used as a start period of all ongoing grants, <span style="font-weight: bold">started before 2013</span></td></tr>';
 				var remark2 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">**</font> <span style="font-weight: bold">From:</span> Start Period            <span style="font-weight: bold">To</span> Current GL Period </td></tr>';
 				var str = table+agreement+donor+stardDate+endDate+extensionDate+elapsedPeriod+accumulatedBudget+accumulatedExpenses+accumulatedBalance+diffBudgetExec+emptyRow+remark1+remark2+'</tbody></table>';	
 				return str;
@@ -170,7 +196,8 @@
 			return "";
 		}
 		var cssClassNames = {
-			'hoverTableRow': 'ui-state-hover smaller-font',
+			headerCell: 'mctableheader',
+			tableCell: 'mctable'
 		};
 		var busAecFormatters = [GetBUS_AECFormatters()];
 		var agrAecFormatters = [GetAGR_AECFormatters()];
@@ -209,7 +236,7 @@
 			//	$( "#dialog" ).dialog( "close" );
 			//});
 		});	
-		queryWrapper.sendAndDrawDashboard();
+		queryWrapper.sendAndDrawDashboard([GetAgreementFormatter()]);
  		
 		var motionQuery;
 		motionQuery && motionQuery.abort();		
@@ -314,7 +341,7 @@
 		<div id="dialog" style='font-size: 0.85em;'>
 			
 		</div>	
-	</div>	
+	</div>
    
    ]]>
   </Content>
