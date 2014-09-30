@@ -31,7 +31,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/redmond/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
+	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard/DashboardWrapper.js"></script>
 	<style type='text/css'>
 		.infowindow {
 			 font-family: sans-serif;
@@ -220,7 +220,9 @@
 				}
 			});
 		});	
-	
+		queryWrapper.AddFilter(GetBusOwnerFilter());
+		queryWrapper.AddFilter(GetStatusFilter());
+		queryWrapper.AddFilter(GetPeriodFilter());	
 		queryWrapper.sendAndDrawDashboard();
  		
 		var motionQuery;
@@ -232,6 +234,60 @@
 		var motionQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, {width: 900, height:400}, null);
 		motionQueryWrapper.sendAndDraw();
 
+		function GetBusOwnerFilter()
+		{
+			var categoryFilter = new google.visualization.ControlWrapper({
+				'controlType': 'CategoryFilter',
+				'containerId': 'donorFilter',
+				'options': 	{
+					'filterColumnLabel': 'BUS_Owner_Name',
+					'ui': 	{
+						'labelStacking': 'Bus Owner',
+						'allowTyping': false,
+						'allowMultiple': true,
+						'selectedValuesLayout': 'belowStacked'
+					}
+				},
+				// 'state': { 'selectedValues': ['.','BMGF'] }
+			});
+			return categoryFilter;
+		}
+		
+		function GetStatusFilter() {
+			var alertFilter = new google.visualization.ControlWrapper({
+				'controlType': 'CategoryFilter',
+				'containerId': 'alertFilter',
+				'options': 	{
+					'filterColumnLabel': 'Status',
+					'ui': {
+						'labelStacking': 'Status',
+						'allowTyping': false,
+						'allowMultiple': true,
+						'selectedValuesLayout': 'belowStacked'
+					}
+				},
+			 // 'state': { 'selectedValues': ['5. Normal'] }
+			});
+			return alertFilter;
+		}
+		
+		function GetPeriodFilter() {
+			var periodFilter = new google.visualization.ControlWrapper({
+				'controlType': 'CategoryFilter',
+				'containerId': 'periodFilter',
+				'options': {
+					'filterColumnLabel': 'Period',
+					'ui': {
+						'labelStacking': 'Period',
+						'allowTyping': false,
+						'allowMultiple': false,
+						'selectedValuesLayout': 'belowStacked'
+					}
+				},
+				'state': { 'selectedValues': ['201409'] }
+			});
+			return periodFilter;
+		}		
 		function GetBusAECInfo(data, row) {
 			var status;
 			if(data!=null) {
@@ -320,6 +376,7 @@
 			
 		</div>	
 	</div>
+</body>
    
    ]]>
   </Content>
