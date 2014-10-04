@@ -21,7 +21,7 @@
   <Content type="html"><![CDATA[
     <body class="tundra">
       <link rel="stylesheet" href="http://archive.dojotoolkit.org/cdn/1.4.3-cdn/google/1.4.3/dijit/themes/tundra/tundra.css" />
-      <script src="http://archive.dojotoolkit.org/cdn/1.4.3-cdn/google/1.4.3/dojo/dojo.xd.js"
+      <script src="https://archive.dojotoolkit.org/cdn/1.4.3-cdn/google/1.4.3/dojo/dojo.xd.js"
         djConfig="baseUrl: 'http://archive.dojotoolkit.org/cdn/1.4.3-cdn/google/1.4.3/dojo', parseOnLoad: true">
       </script>
       <script>
