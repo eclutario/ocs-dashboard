@@ -212,7 +212,9 @@
 						if(data!=null) {
 							var str=GetAgreementInfo(data,item.row);
 							var agreement=data.getFormattedValue(item.row, 0);
+              alert(agreement);
 							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
+              alert(period);
 							//period bus, aec, budget, expenses,  balance where  agreement = and period =
 							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT C,E,F,G where A='"+agreement+"' and D="+period+ " label  C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true,  showRowNumber:true,
 				'cssClassNames': cssClassNames});
