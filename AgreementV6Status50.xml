@@ -73,7 +73,7 @@
      <script type="text/javascript">
 
 	var motionChart;
-    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1sQihfqpAtxJO4byQ2VUAWBNahrzXxXFzwjEVps14L3s&pub=1&gid=1050536866';
+    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1sQihfqpAtxJO4byQ2VUAWBNahrzXxXFzwjEVps14L3s&pub=1&gid=727484911';
 	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1xkU11OKhIC5X5qT3W7AMF9JonPs7OVDQdVppnw_DCiM&pub=1&gid=333996512';
 	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1BUVTljz4s3UwouC6cTQPpAkpd7q3Xq3YVYEKd70EHzE&pub=1&gid=1115560362';
 	var query;
@@ -110,7 +110,7 @@
 		var query;
 		query && query.abort();
                                       0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7 
-		var queryString = "&tq=SELECT A,N,O,S,T,B,G,M,I,J,K,L,C,D,E,Q,H,P,U";
+		var queryString = "&tq=SELECT A,N,O,S,T,B,G,M,I,J,K,L,C,D,E,Q,H,P";
 		query = new google.visualization.Query(dataSourceUrl + queryString);
 		var bubbleChart = new google.visualization.ChartWrapper({
 			'fontSize': 10,
