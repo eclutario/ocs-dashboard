@@ -125,7 +125,7 @@
 				backgroundColor: 'transparent',
 				bubble: {textStyle: {color: 'transparent' },stroke: "transparent",opacity: 0.8},
 				
-				colorAxis : { minValue: 10, maxValue: 25, colors:['green', 'yellow', 'red']},
+				colorAxis : { minValue: 25, maxValue: 50, colors:['green', 'yellow', 'red']},
 				sortBubblesBySize: true,
 				tooltip: { trigger: 'none'},
 				legend: {position: 'right', textStyle: {color: 'blue', fontSize: 10}}
