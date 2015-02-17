@@ -297,15 +297,15 @@
 									<div id="tabs-1">
 										<div style='font-size: 0.85em;'>
 											<span style="background-color: yellow; display: block; height: 8px;width: 8px; float:left" ></span> 
-											<span   style='font-size: 0.85em;'>Warning (>10% and <25%)</span>
+											<span   style='font-size: 0.85em;'>Warning (>25% and <50%)</span>
 										</div>
 										<div style='font-size: 0.85em;'>
 											<span style="background-color: green; display: block; height: 8px;width: 8px; float:left" ></span> 
-											<span style='font-size: 0.85em;'>Normal (<=10%)</span>
+											<span style='font-size: 0.85em;'>Normal (<=25%)</span>
 										</div>
 										<div style='font-size: 0.85em;'>
 											<span style="background-color: red; display: block; height: 8px;width: 8px; float:left" ></span> 
-											<span style='font-size: 0.85em;'>Alert (>=25%)</span>
+											<span style='font-size: 0.85em;'>Alert (>=50%)</span>
 										</div>
 
 										<div id="bubblechart" ></div>								
