@@ -216,7 +216,7 @@
 							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
               alert(period);
 							//period bus, aec, budget, expenses,  balance where  agreement = and period =
-							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT C,E,F,G where A='"+agreement+"' and D="+period+ " label  C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true,  showRowNumber:true,
+							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT C,E,F,G where A='"+agreement+"' and D='"+period+ "' label  C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true,  showRowNumber:true,
 				'cssClassNames': cssClassNames});
 							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT A,B,C,D,E,F,G,H,I where K='"+agreement+"' and J="+period+ " order by A,C  label C 'Start Date', D 'End Date',  E 'Extension Date', F 'Elapsed Period' , G 'Cumulated Budget', H 'Cumulated Expenses', I 'Cumulated Balance' ",busAecFormatters,{ allowHtml: true, showRowNumber:true,
 				'cssClassNames': cssClassNames});
