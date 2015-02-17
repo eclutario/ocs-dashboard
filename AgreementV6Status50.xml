@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs
+      title="__MSG_default_title__"
+      author="Victor Alarcon"
+      author_affiliation="IRRI"
+      author_email="v.alarcon@irri.org"
+      description="__MSG_description__"
+      screenshot=""
+      thumbnail=""
+      height="350">
+    <Require feature="settitle" />
+    <Require feature="idi" />
+    <Require feature="locked-domain" />
+    <Require feature="setprefs" />
+  </ModulePrefs>
+
+  <UserPref name="_table_query_url" display_name="__MSG_tablequeryurl__" required="true" />
+  <UserPref name="title" display_name="__MSG_title__" required="false" />
+  <UserPref name="initialstate" display_name="__MSG_initialstate__" required="false" />
+  <UserPref name="_table_query_refresh_interval" display_name="__MSG_tablequeryrefreshinterval__" default_value="300" datatype="enum" required="false">
+    <EnumValue value="0" display_value="__MSG_never__" />
+    <EnumValue value="60" display_value="1" />
+    <EnumValue value="300" display_value="5" />
+    <EnumValue value="1800" display_value="30" />
+  </UserPref>
+
+  <Content type="html"><![CDATA[
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/redmond/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrappeStat50.js"></script>
+	<style type='text/css'>
+		.infowindow {
+			 font-family: sans-serif;
+			 font-size: 0.6em;
+		}
+		.mctable {
+			 font-family: sans-serif;
+			 font-size: 0.7em;
+			 border: 1px solid Gray;
+		}
+		.mctableheader {
+			 font-family: sans-serif;
+			 font-size: 0.6em;
+			 background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(249, 250, 253) 30%, rgb(238, 242, 247) 60%, rgb(228, 233, 244) 100%) repeat scroll 0 0 transparent;
+			 border: 1px solid Gray;
+		}
+	</style>
+	<script type="text/javascript">
+		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart'] });
+	</script>
+	<script>
+		$(document).ready(function() {
+			$('#AgrReport').css('font-size', '.8em');
+			$( "#tabs" ).tabs({
+				collapsible: true,
+				activate: 	function (event, ui) {
+								if(ui.newTab.index()==1) {
+									$("#filters").hide(1000);
+									$("#dashboardAEC").hide(1000);
+								}
+								else {
+									$("#filters").show(1000);		
+									$("#dashboardAEC").show(1000);									
+								}
+							}
+				});
+		
+		});
+	</script>
+     <script type="text/javascript">
+
+	var motionChart;
+    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1sQihfqpAtxJO4byQ2VUAWBNahrzXxXFzwjEVps14L3s&pub=1&gid=1050536866';
+	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1xkU11OKhIC5X5qT3W7AMF9JonPs7OVDQdVppnw_DCiM&pub=1&gid=333996512';
+	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1BUVTljz4s3UwouC6cTQPpAkpd7q3Xq3YVYEKd70EHzE&pub=1&gid=1115560362';
+	var query;
+	//var tableWrapper;
+	//var queryWrapper;
+	//var selectedBusAEC;
+
+		
+	google.setOnLoadCallback(function() { InitGraphs(); });
+ 
+	function isEmptyObject(obj) {
+		return JSON.stringify(obj) == '{}';
+	}
+	
+	function AddFilter(filters,column) {
+		var condition = '';
+		if(filters.length> 0) {
+			condition = condition + "Where (";
+			var j = 1;
+			for(var i = 0 ; i < filters.length; i++) {
+				condition = condition + column+"='"+ filters[i] + "'";
+				j++;
+				if(j <= filters.length) {
+					condition = condition + " OR ";
+				}				
+			}
+			condition = condition + ") ";
+		}
+		return condition;
+	}	
+		
+	function InitGraphs()
+	{
+		var query;
+		query && query.abort();
+                                      0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7 
+		var queryString = "&tq=SELECT A,N,O,S,T,B,G,M,I,J,K,L,C,D,E,Q,H,P,U";
+		query = new google.visualization.Query(dataSourceUrl + queryString);
+		var bubbleChart = new google.visualization.ChartWrapper({
+			'fontSize': 10,
+			'chartType': 'BubbleChart',
+			'containerId': 'bubblechart',
+			'options': {
+				title: 'Project Execution Time vs. Spend',
+				hAxis: { textStyle: { fontSize: 10}, title: '% Elapsed Time', format: '0'},
+				vAxis: { textStyle: { fontSize: 10},title: '% Budget Execution',format: '0'},
+				height: 600,
+				width: 900,
+				backgroundColor: 'transparent',
+				bubble: {textStyle: {color: 'transparent' },stroke: "transparent",opacity: 0.8},
+				
+				colorAxis : { minValue: 10, maxValue: 25, colors:['green', 'yellow', 'red']},
+				sortBubblesBySize: true,
+				tooltip: { trigger: 'none'},
+				legend: {position: 'right', textStyle: {color: 'blue', fontSize: 10}}
+			}	
+		});
+		
+		function GetNumberFormatter () {
+			return  new google.visualization.NumberFormat(
+			  {fractionDigits:0, negativeColor: "#FF0000", negativeParens: true});
+		}
+		
+		function GetAgreementFormatter()
+		{
+			var numberFormatter= GetNumberFormatter();
+			return {formatter:numberFormatter, columns: [8,10,11] };		
+		}
+		function GetBUS_AECFormatters()
+		{
+			var numberFormatter= GetNumberFormatter();
+			return {formatter:numberFormatter, columns: [6,7,8] };
+		}
+		function GetAGR_AECFormatters()
+		{
+			var numberFormatter= GetNumberFormatter();
+			return {formatter:numberFormatter, columns: [1,2,3] };
+		}
+		function setNegativeColor(data,row, column)
+		{
+			if(data.getColumnType(column)!= 'number' )
+				return data.getFormattedValue(row, column);
+			var number = data.getValue(row, column);
+			if(number < 0)
+				return '<font color="red">'+data.getFormattedValue(row, 11)+'</font>';
+			return data.getFormattedValue(row, column);
+		}
+		function GetAgreementInfo(data, row) {
+			var status;
+			if(data!=null) {
+				var table = "<table class='infowindow'><tbody>";
+				var agreement = '<tr class="google-visualization-table-tr-even" ><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Agreement: </span></td><td >' +data.getFormattedValue(row, 0) + ' '+ data.getFormattedValue(row, 5)+ '</td></tr>';
+				var donor = '<tr class="google-visualization-table-tr-odd" ><td class="google-visualization-table-th gradient""><span style="font-weight: bold">Donor:</span> </td><td >' +data.getFormattedValue(row, 7) +  '</td></tr>';
+				var stardDate = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient""> <span style="font-weight: bold">Start Date</span><font color="red">*</font> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 12)))+ '</td></tr>';
+				var endDate = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient""> <span style="font-weight: bold">End Date:</span> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 13)))+ '</td></tr>';						
+				var extensionDate = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Extension Date</span> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 14)))+ '</td></tr>';						
+				var elapsedPeriod = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Elapsed Period</span><font color="red">**</font> </td><td>' + data.getFormattedValue(row, 16)+ '</td></tr>';
+				var accumulatedBudget = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Budget(in USD)</span><font color="red">**</font> </td><td>' + setNegativeColor(data,row,9)+ '</td></tr>';
+				var accumulatedExpenses = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Expenses(in USD)</span><font color="red">**</font> </td><td>' +setNegativeColor(data,row,10)+ '</td></tr>';
+				var accumulatedBalance = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Balance(in USD)</span><font color="red">**</font> </td><td>' + setNegativeColor(data,row,11)+ '</td></tr>';
+				var execution = data.getFormattedValue(row, 17);
+				if(execution <= 10) {
+					status = '<font color="green">';
+				} else {
+					if(execution >= 25) {
+						status = '<font color="red">';
+					} else {
+						status = '<font color="yellow">';
+					}
+				}
+				
+				var diffBudgetExec = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Difference in Budget Execution<font color="red">**</font></span></td><td><span style="font-weight: bold">'+execution + '%</span></td></tr>';
+				var emptyRow = '<tr  ><td colspan="2">&nbsp;</td></tr>';
+				var remark1 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">*</font>  January 2013 was used as a start period of all ongoing grants, <span style="font-weight: bold">started before 2013</span></td></tr>';
+				var remark2 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">**</font> <span style="font-weight: bold">From:</span> Start Period            <span style="font-weight: bold">To</span> Current GL Period </td></tr>';
+				var str = table+agreement+donor+stardDate+endDate+extensionDate+elapsedPeriod+accumulatedBudget+accumulatedExpenses+accumulatedBalance+diffBudgetExec+emptyRow+remark1+remark2+'</tbody></table>';	
+				return str;
+			}	
+			return "";
+		}
+		var cssClassNames = {
+			headerCell: 'mctableheader',
+			tableCell: 'mctable'
+		};
+		var busAecFormatters = [GetBUS_AECFormatters()];
+		var agrAecFormatters = [GetAGR_AECFormatters()];
+		var queryWrapper = new DashboardWrapper(query, bubbleChart, '', document.getElementById('dashboard'));
+		google.visualization.events.addListener(bubbleChart, 'ready', function () {		
+
+			google.visualization.events.addListener(bubbleChart.getChart(), 'select', function () {
+				var selection = bubbleChart.getChart().getSelection();				
+				if( selection != null && selection.length > 0){
+					var item = selection[0];
+					if (item.row != null) {	
+						var data = bubbleChart.getDataTable();
+						if(data!=null) {
+							var str=GetAgreementInfo(data,item.row);
+							var agreement=data.getFormattedValue(item.row, 0);
+							var period=data.getFormattedValue(item.row, 6);// where H="+period+ "
+							//period bus, aec, budget, expenses,  balance where  agreement = and period =
+							sendAndDrawTable(aECDataSourceUrl,document.getElementById('AEC_Table'), "&tq=SELECT C,E,F,G where A='"+agreement+"' and D="+period+ " label  C 'AEC Description', E 'Budget', F 'Expenses', G 'Balance' Format E '0', F '0' , G '0' ",agrAecFormatters,{ allowHtml: true,  showRowNumber:true,
+				'cssClassNames': cssClassNames});
+							sendAndDrawTable(bus_AEC_Url,document.getElementById('BUS_AEC'), "&tq=SELECT A,B,C,D,E,F,G,H,I where K='"+agreement+"' and J="+period+ " order by A,C  label C 'Start Date', D 'End Date',  E 'Extension Date', F 'Elapsed Period' , G 'Cumulated Budget', H 'Cumulated Expenses', I 'Cumulated Balance' ",busAecFormatters,{ allowHtml: true, showRowNumber:true,
+				'cssClassNames': cssClassNames});
+							$("#Agreement").html("Agreement Section");							
+							$("#BUS").html("BUS Section");	
+							$("#dialog").dialog({
+								modal: true, 
+								height: 480, 
+								width: 500,
+								title: 'Agreement Details'
+							});
+							$("#dialog").html(str);
+						}
+					}
+				}
+			});
+			//google.visualization.events.addListener(bubbleChart.getChart(), 'onmouseout', function () {		
+			//	$( "#dialog" ).dialog( "close" );
+			//});
+		});	
+		queryWrapper.sendAndDrawDashboard([GetAgreementFormatter()]);
+ 		
+		var motionQuery;
+		motionQuery && motionQuery.abort();		
+		motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select B,R,N,O,S,Q,A,M LABEL B 'Agreement Description' ");
+																		//	 
+		var motionChart = new google.visualization.MotionChart(document.getElementById('motionchart'));
+		var motionQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, {width: 900, height:400}, null);
+		motionQueryWrapper.sendAndDraw();
+
+		function GetBusAECInfo(data, row) {
+			var status;
+			if(data!=null) {
+				var table = "<table class='google-visualization-table-table'><tbody>";
+				var agreement = '<tr class="google-visualization-table-tr-even" ><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">BUS/AEC: </span></td><td >' +data.getFormattedValue(row, 1) + ' '+ data.getFormattedValue(row, 2)+ '</td></tr>';
+				var str = table+agreement+'</tbody></table>';	
+				return str;
+			}	
+			return "";
+		}
+		function sendAndDrawTable(source,container,queryString,formatters,options)
+		{
+			chart = new google.visualization.Table(container);
+			//chart =  new google.visualization.Table(document.getElementById('AEC_Table'));
+			var query;
+			query && query.abort();
+			query = new google.visualization.Query(source + queryString);
+			var tableWrapper = new DashboardWrapper(query, chart, options,  null);
+			//google.visualization.events.addListener(chart, 'ready', function () {	
+				//$('#AgrReport').css('font-size', '.8em');
+			//});
+			tableWrapper.sendAndDraw(formatters);
+		}		
+ 	}
+
+
+  </script>
+</head>
+
+<body>
+<br />
+	<div id="AgrReport" style='font-size: 0.85em;'> 
+		<div id="dashboard">
+					<table width='100%'>
+						<tr>
+							<td style='width: 10%; font-size: smaller;' valign="top">
+								<div id="filters" style='font-size: 0.85em;'>
+									<div  id="donorFilter" ></div>
+									<div id="alertFilter" ></div>
+									<div id="periodFilter" ></div>
+								</div>
+							</td>
+							<td style='width: 90%; font-size: smaller;' valign="top">
+								<div id="tabs">
+									<ul>
+										<li><a href="#tabs-1">Grant Execution-Agreement Level</a></li>
+										<li><a href="#tabs-2">Grant Execution Trends-ALL</a></li>
+
+									</ul>
+									<div id="tabs-1">
+										<div style='font-size: 0.85em;'>
+											<span style="background-color: yellow; display: block; height: 8px;width: 8px; float:left" ></span> 
+											<span   style='font-size: 0.85em;'>Warning (>10% and <25%)</span>
+										</div>
+										<div style='font-size: 0.85em;'>
+											<span style="background-color: green; display: block; height: 8px;width: 8px; float:left" ></span> 
+											<span style='font-size: 0.85em;'>Normal (<=10%)</span>
+										</div>
+										<div style='font-size: 0.85em;'>
+											<span style="background-color: red; display: block; height: 8px;width: 8px; float:left" ></span> 
+											<span style='font-size: 0.85em;'>Alert (>=25%)</span>
+										</div>
+
+										<div id="bubblechart" ></div>								
+									</div>
+									<div id="tabs-2">
+										<div id="motionchart"></div>
+									</div>								
+							</td>
+						</tr>
+
+					</table>
+				</div>
+				<p>&nbsp;</p>
+				<div id="dashboardAEC">
+					<table width='100%' >
+						<tr>
+
+							<td valign='top' style='width: 35%; font-size: smaller; padding-top: 2em'>
+								<div id="Agreement"></div>
+								<div id="AEC_Table" style='font-size: 0.85em;' ></div>
+							</td>
+							<td valign='top' style='width: 65%; font-size: smaller; padding-top: 2em'>
+								<div id="BUS" ></div>
+								<div id="BUS_AEC"  style='font-size: 0.85em;'></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+		
+		</div>
+		<div id="dialog" style='font-size: 0.85em;'>
+			
+		</div>	
+	</div>
+   
+   ]]>
+  </Content>
+</Module>
