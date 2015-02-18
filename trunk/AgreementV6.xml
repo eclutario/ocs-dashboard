@@ -171,12 +171,11 @@
 				var stardDate = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient""> <span style="font-weight: bold">Start Date</span><font color="red">*</font> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 12)))+ '</td></tr>';
 				var endDate = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient""> <span style="font-weight: bold">End Date:</span> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 13)))+ '</td></tr>';						
 				var extensionDate = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Extension Date</span> </td><td>' + $.datepicker.formatDate('mm-dd-yy', new Date(data.getFormattedValue(row, 14)))+ '</td></tr>';						
-				var elapsedPeriod = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Elapsed Period</span> </td><td>' + data.getFormattedValue(row, 16)+ '</td></tr>';
+				var elapsedPeriod = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Elapsed Period (in %) </span> </td><td>' + data.getFormattedValue(row, 1)+ '</td></tr>';
 				var accumulatedBudget = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Budget(in USD)</span> </td><td>' + setNegativeColor(data,row,8)+ '</td></tr>';
 				var accumulatedExpenses = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Expenses(in USD)</span> </td><td>' +setNegativeColor(data,row,10)+ '</td></tr>';
 				var accumulatedBalance = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Balance(in USD)</span> </td><td>' + setNegativeColor(data,row,11)+ '</td></tr>';
 				var execution = data.getFormattedValue(row, 17);
-				var percentBudgetExecuted=data.getFormattedValue(row, 2);
 				if(execution <= 10) {
 					status = '<font color="green">';
 				} else {
@@ -187,11 +186,12 @@
 					}
 				}
 				
-				var diffBudgetExec = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Grant Execution (in %)</td><td><span style="font-weight: bold">'+percentBudgetExecuted + '%</span></td></tr>';
+				var percentBudgetExecuted = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Grant Execution (in %)</td><td><span style="font-weight: bold">'+data.getFormattedValue(row, 2) + '%</span></td></tr>';
+				var varianceExecution = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Variance (in %)</td><td><span style="font-weight: bold">'+execution + '%</span></td></tr>';
 				var emptyRow = '<tr  ><td colspan="2">&nbsp;</td></tr>';
 				var remark1 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">*</font>  January 2013 was used as a start period of all ongoing grants, <span style="font-weight: bold">started before 2013</span></td></tr>';
 				//var remark2 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">**</font> <span style="font-weight: bold">From:</span> Start Period            <span style="font-weight: bold">To</span> Current GL Period </td></tr>';
-				var str = table+agreement+donor+stardDate+endDate+extensionDate+elapsedPeriod+accumulatedBudget+accumulatedExpenses+accumulatedBalance+diffBudgetExec+emptyRow+remark1+'</tbody></table>';	
+				var str = table+agreement+donor+stardDate+endDate+extensionDate+elapsedPeriod+accumulatedBudget+accumulatedExpenses+accumulatedBalance+percentBudgetExecuted+varianceExecution+emptyRow+remark1+'</tbody></table>';	
 				return str;
 			}	
 			return "";
