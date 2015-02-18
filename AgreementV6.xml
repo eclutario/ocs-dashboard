@@ -224,7 +224,7 @@
 							$("#BUS").html("BUS Section");	
 							$("#dialog").dialog({
 								modal: true, 
-								height: 200, 
+								height: 300, 
 								width: 400,
 								title: 'Agreement Details'
 							});
