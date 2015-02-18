@@ -174,8 +174,9 @@
 				var elapsedPeriod = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Elapsed Period</span> </td><td>' + data.getFormattedValue(row, 16)+ '</td></tr>';
 				var accumulatedBudget = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Budget(in USD)</span> </td><td>' + setNegativeColor(data,row,8)+ '</td></tr>';
 				var accumulatedExpenses = '<tr class="google-visualization-table-tr-odd"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Expenses(in USD)</span> </td><td>' +setNegativeColor(data,row,10)+ '</td></tr>';
-				var accumulatedBalance = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Cumulated Balance(in USD)</span> </td><td>' + setNegativeColor(data,row,11)+ '</td></tr>';
+				var accumulatedBalance = '<tr class="google-visualization-table-tr-even"><td class="google-visualization-table-th gradient"> <span style="font-weight: bold">Grant Balance(in USD)</span> </td><td>' + setNegativeColor(data,row,11)+ '</td></tr>';
 				var execution = data.getFormattedValue(row, 17);
+				var percentBudgetExecuted=data.getFormattedValue(row, 2);
 				if(execution <= 10) {
 					status = '<font color="green">';
 				} else {
@@ -186,7 +187,7 @@
 					}
 				}
 				
-				var diffBudgetExec = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Difference in Budget Execution<font color="red">**</font></span></td><td><span style="font-weight: bold">'+execution + '%</span></td></tr>';
+				var diffBudgetExec = '<tr class="google-visualization-table-tr-odd"><td ><span style="font-weight: bold"> Grant Execution (in %)</td><td><span style="font-weight: bold">'+percentBudgetExecuted + '%</span></td></tr>';
 				var emptyRow = '<tr  ><td colspan="2">&nbsp;</td></tr>';
 				var remark1 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">*</font>  January 2013 was used as a start period of all ongoing grants, <span style="font-weight: bold">started before 2013</span></td></tr>';
 				//var remark2 = '<tr  class="google-visualization-table-tr-odd"><td colspan="2" class="google-visualization-table-th gradient"><font color="red">**</font> <span style="font-weight: bold">From:</span> Start Period            <span style="font-weight: bold">To</span> Current GL Period </td></tr>';
