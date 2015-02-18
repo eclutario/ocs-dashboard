@@ -225,7 +225,7 @@
 							$("#dialog").dialog({
 								modal: true, 
 								height: 200, 
-								width: 350,
+								width: 400,
 								title: 'Agreement Details'
 							});
 							$("#dialog").html(str);
