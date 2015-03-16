@@ -74,9 +74,9 @@
      <script type="text/javascript">
 
 	var motionChart;
-    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1sQihfqpAtxJO4byQ2VUAWBNahrzXxXFzwjEVps14L3s&pub=1&gid=1050536866';
-	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1xkU11OKhIC5X5qT3W7AMF9JonPs7OVDQdVppnw_DCiM&pub=1&gid=333996512';
-	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1BUVTljz4s3UwouC6cTQPpAkpd7q3Xq3YVYEKd70EHzE&pub=1&gid=1115560362';
+    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1sQihfqpAtxJO4byQ2VUAWBNahrzXxXFzwjEVps14L3s&gid=1050536866';
+	var aECDataSourceUrl = 'https://spreadsheets.google.com/tq?key=1xkU11OKhIC5X5qT3W7AMF9JonPs7OVDQdVppnw_DCiM&gid=333996512';
+	var bus_AEC_Url = 'https://spreadsheets.google.com/tq?key=1BUVTljz4s3UwouC6cTQPpAkpd7q3Xq3YVYEKd70EHzE&gid=1115560362';
 	var query;
 	//var tableWrapper;
 	//var queryWrapper;
