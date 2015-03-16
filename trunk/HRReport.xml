@@ -32,7 +32,7 @@
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
 				//var query = gadgetHelper.createQueryFromPrefs(prefs);
-				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=505475375&pub=1");
+				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=505475375");
                 query.setQuery("select I,J,N,O, count(B) where   I <> '99999' group by I,J,N,O label count(B) 'Total'");
                 //query.setQuery("select H,I,M,N, count(A) where H is not null and H <> '99999' and N is not null group by H,I,M,N label count(A) 'Total'");
 	  // Send the query with a callback function.				
