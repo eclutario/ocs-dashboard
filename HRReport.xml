@@ -14,7 +14,28 @@
 	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
 	<Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-		<script>
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/redmond/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+		<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
+	<style type='text/css'>
+		.infowindow {
+			 font-family: sans-serif;
+			 font-size: 0.6em;
+		}
+		.mctable {
+			 font-family: sans-serif;
+			 font-size: 0.7em;
+			 border: 1px solid Gray;
+		}
+		.mctableheader {
+			 font-family: sans-serif;
+			 font-size: 0.6em;
+			 background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(249, 250, 253) 30%, rgb(238, 242, 247) 60%, rgb(228, 233, 244) 100%) repeat scroll 0 0 transparent;
+			 border: 1px solid Gray;
+		}
+	</style>
+	<script>
 			$(document).ready(function() {
 				$('#AgrReport').css('font-size', '.8em');
 				$( "#tabs" ).tabs({
