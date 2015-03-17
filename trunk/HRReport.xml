@@ -85,9 +85,19 @@
 			var motionQuery;
 			motionQuery && motionQuery.abort();		
 			motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select A,G where A <> ''");
-																			//	 
+			var options = {
+			  icons: {
+				default: {
+				  normal: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png',
+				  selected: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png'
+				}
+			  },
+			  showTip: true,
+			  zoomLevel: 2,
+			  mapType: 'normal'
+			};
 			var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
-			var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, {width:600, showTip: true}, null);
+			var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, options, null);
 			mapQueryWrapper.sendAndDraw();
 					google.visualization.drawChart({
 					"containerId": "chart2",
