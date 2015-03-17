@@ -87,7 +87,7 @@
 			motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select A,G where A <> ''");
 																			//	 
 			var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
-			var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, {showTip: true}, null);
+			var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, {width:800, showTip: true}, null);
 			mapQueryWrapper.sendAndDraw();
 					google.visualization.drawChart({
 					"containerId": "chart2",
