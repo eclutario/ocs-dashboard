@@ -14,133 +14,51 @@
 	<UserPref name="_table_query_url" display_name="Data source url" required="true" />
 	<Content type="html"><![CDATA[
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script>
+			$(document).ready(function() {
+				$('#AgrReport').css('font-size', '.8em');
+				$( "#tabs" ).tabs({
+					collapsible: true,
+					activate: 	function (event, ui) {
+									if(ui.newTab.index()==1) {
+										$("#filters").hide(1000);
+										$("#dashboardAEC").hide(1000);
+									}
+									else {
+										$("#filters").show(1000);		
+										$("#dashboardAEC").show(1000);									
+									}
+								}
+					});
+			
+			});
+		</script>		
         <script type="text/javascript">
 			var prefs = new _IG_Prefs();
 			// The gviz helper for gadget specific functionality.
 			var gadgetHelper = null;
-			_IG_RegisterOnloadHandler(loadVisualizationAPI);
+			var motionChart;
+			var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765';
+	_IG_RegisterOnloadHandler(loadVisualizationAPI);
 
 			function loadVisualizationAPI() {
-			  google.load('visualization', '1', {'packages': ['controls']});
+			  google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart','map'] });
 			  google.setOnLoadCallback(querySpreadsheet);
 			};
 
-            function querySpreadsheet() {
-				var title = prefs.getString('title');
-				if (title != '') {
-				_IG_SetTitle(title);
-				}
-				gadgetHelper = new google.visualization.GadgetHelper();
-				//var query = gadgetHelper.createQueryFromPrefs(prefs);
-				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=505475375");
-                query.setQuery("select I,J,N,O, count(B) where   I <> '99999' group by I,J,N,O label count(B) 'Total'");
-                //query.setQuery("select H,I,M,N, count(A) where H is not null and H <> '99999' and N is not null group by H,I,M,N label count(A) 'Total'");
-	  // Send the query with a callback function.				
-                query.send(handleQueryResponse);
-            }
-    
-            function handleQueryResponse(response) {
-                if (response.isError()) {
-                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-                    return;
-                }
-                var data = response.getDataTable();
-
-				// Define a category picker control for the Nationality column
-				var nationalityPicker = new google.visualization.ControlWrapper({
-				  'controlType': 'CategoryFilter',
-				  'containerId': 'control1',
-				  'options': {
-					'filterColumnLabel': 'Nationality',
-					'ui': {
-					'labelStacking': 'Nationality',
-					  'allowTyping': false,
-					  'allowMultiple': true
-					}
-				  }
-				});  
-
-				// Define a category picker control for the Division column
-				var divisionPicker = new google.visualization.ControlWrapper({
-				  'controlType': 'CategoryFilter',
-				  'containerId': 'control2',
-				  'options': {
-					'filterColumnLabel': 'Division',
-					'ui': {
-					'labelStacking': 'OU',
-					  'allowTyping': false,
-					  'allowMultiple': true
-					}
-				  }
-				});   		
-				// Define a category picker control for the OU column
-				var ouPicker = new google.visualization.ControlWrapper({
-				  'controlType': 'CategoryFilter',
-				  'containerId': 'control4',
-				  'options': {
-					'filterColumnLabel': 'OU',
-					'ui': {
-					'labelStacking': 'OU',
-					  'allowTyping': false,
-					  'allowMultiple': true
-					}
-				  }
-				});      
-				// Define a category picker control for the Gender column
-				var categoryPicker = new google.visualization.ControlWrapper({
-				  'controlType': 'CategoryFilter',
-				  'containerId': 'control3',
-				  'options': {
-					'filterColumnLabel': 'Gender',
-					'ui': {
-					'labelStacking': 'vertical',
-					  'allowTyping': false,
-					  'allowMultiple': true
-					}
-				  }
-				});
-			  
-				// Define a Pie chart
-				var pie = new google.visualization.ChartWrapper({
-				  'chartType': 'PieChart',
-				  'containerId': 'chart1',
-				  'options': {
-					'width': 400,
-					'height': 400,
-					'legend': 'none',
-					'title': 'Staff Count',
-					'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
-					'pieSliceText': 'label'
-				  },
-				  // Instruct the piechart to use colums 0 (Name) and 3 (Number of Resources)
-				  // from the 'data' DataTable.
-				  'view': {'columns': [1, 4]}
-				});
-			  
-				// Define a table
-				var table = new google.visualization.ChartWrapper({
-				  'chartType': 'Table',
-				  'containerId': 'chart3',
-				  'options': {
-					'width': '400px'
-				  }
-				});
-				
-
-			 
-				// Create a dashboard
-				
-				new google.visualization.Dashboard(document.getElementById('dashboard')).
-					// Establish bindings, declaring the both the division and the category
-					// picker will drive both charts.
-					bind([nationalityPicker,divisionPicker, ouPicker,categoryPicker], [pie, table]).
-					// Draw the entire dashboard.
-					draw(data);
-					
-				google.visualization.drawChart({
+	function querySpreadsheet()
+	{
+ 		
+		var motionQuery;
+		motionQuery && motionQuery.abort();		
+		motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select A,G where A <> ''");
+																		//	 
+		var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
+		var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, {showTip: true}, null);
+		mapQueryWrapper.sendAndDraw();
+ 				google.visualization.drawChart({
 				"containerId": "chart2",
 				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C7&key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1252886937&headers=-1',
-				"refreshInterval": 5,
 				"chartType": "BarChart",
 				"options": {
 				  "title":"IRRI Gender Demographics",
@@ -151,30 +69,51 @@
 					height: 600,   
 				}
 				
-			  });
-				//gadgets.window.adjustHeight();			  
-            }      
+			  });			  
+	}    
         </script>
-        <body style="font-family: Arial;border: 0 none;">
-<div style="font-size: xx-small;"> Last updated: 3/04/2015 1:00:51</div>		<div  id="chart2"></div>
+<body>
+<br />
+	<div id="AgrReport" style='font-size: 0.85em;'> 
+		<div id="dashboard">
+					<table width='100%'>
+						<tr>
+							<td style='width: 10%; font-size: smaller;' valign="top">
+								<div id="filters" style='font-size: 0.85em;'>
+									<div  id="nationalityFilter" ></div>
+									<div id="divisionFilter" ></div>
+									<div id="ouFilter" ></div>
+								</div>
+							</td>
+							<td style='width: 90%; font-size: smaller;' valign="top">
+								<div id="tabs">
+									<ul>
+										<li><a href="#tabs-1">Map</a></li>
+										<li><a href="#tabs-2">Gender Chart</a></li>
 
-			<div id="dashboard">
-			  <table>				
-				<tr style='vertical-align: top'>
-				  <td style='width: 300px; font-size: 0.9em;'>
-					<div id="control1"></div>
-					<div id="control2"></div>
-					<div id="control3"></div>
-					<div id="control4"></div>
-				  </td>
-				  <td style='width: 600px'>				
-					<div  id="chart1"></div>
-					<div id="chart3"></div>
-				  </td>
-				</tr>
-			  </table>
-			</div>
-		</body>
+									</ul>
+									<div id="tabs-1">
+
+										<div id="MapNationality" ></div>								
+									</div>
+									<div id="tabs-2">
+										<div id="chart2"></div>
+									</div>								
+							</td>
+						</tr>
+
+					</table>
+				</div>
+				<p>&nbsp;</p>
+
+
+		
+		</div>
+		<div id="dialog" style='font-size: 0.85em;'>
+			
+		</div>	
+	</div>
+</body>
   ]]>
     </Content>
 </Module>
