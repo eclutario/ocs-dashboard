@@ -94,7 +94,8 @@
 			  },
 			  showTip: true,
 			  zoomLevel: 2,
-			  mapType: 'normal'
+			  mapType: 'normal',
+			  useMapTypeControl:true
 			};
 			var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
 			var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, options, null);
