@@ -50,7 +50,7 @@
 		}
 	</style>
 	<script type="text/javascript">
-		google.load('visualization', '1.1', { packages: ['controls', 'corechart','map'] });
+		google.load('visualization', '1.1', { packages: ['controls', 'corechart','map','table'] });
 	</script>
 	<script>
 		$(document).ready(function() {
