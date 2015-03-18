@@ -80,47 +80,76 @@
 	 
 
 			
-		function InitGraphs()
-		{
-			var motionQuery;
-			motionQuery && motionQuery.abort();		
-			motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select A,G where A <> ''");
-			var options = {
-			  icons: {
-				default: {
-				  normal: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png',
-				  selected: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png'
+	function InitGraphs()
+	{
+ 		
+		var motionQuery;
+		motionQuery && motionQuery.abort();		
+		motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select A,G where A <> ''");
+		var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
+		var options = {
+          icons: {
+            default: {
+              normal: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png',
+              selected: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png'
+            }
+          },
+		  showTip: true,
+		  zoomLevel: 2,
+		  mapType: 'normal'
+        };
+		var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, options, null);
+		mapQueryWrapper.sendAndDraw();
+		var cssClassNames = {
+			headerCell: 'mctableheader',
+			tableCell: 'mctable'
+		};		
+		var ageByCountryQuery;		
+		ageByCountryQuery && ageByCountryQuery.abort();			
+		ageByCountryQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1548397318");
+		ageByCountryQuery.setQuery("select * Label A 'Age Group', B 'Country'");
+		var ageByCountryChart = new google.visualization.Table(document.getElementById('AgeByCountry'));
+		var ageByCountryWrapper =  new DashboardWrapper(ageByCountryQuery, ageByCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames}, null);
+		ageByCountryWrapper.sendAndDraw();
+
+		var countryQuery;		
+		countryQuery && countryQuery.abort();			
+		countryQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765");
+		countryQuery.setQuery("select A,B,C,D Label A 'Country'");
+		var byCountryChart = new google.visualization.Table(document.getElementById('byCountry'));
+		var byCountryWrapper =  new DashboardWrapper(countryQuery, byCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames}, null);
+		byCountryWrapper.sendAndDraw();
+		
+		//var pieChartQuery;
+		//pieChartQuery && pieChartQuery.abort();		
+		//pieChartQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=505475375");
+		//pieChartQuery.setQuery("select I,J,N,O, count(B) where   I <> '99999' group by I,J,N,O label count(B) 'Total'");
+		//var pieChart = new google.visualization.Map(document.getElementById('MapNationality'));
+		
+ 				google.visualization.drawChart({
+				"containerId": "chart2",
+				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C7&key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1252886937&headers=-1',
+				"chartType": "BarChart",
+				"options": {
+				  "title":"IRRI Gender Demographics",
+				  "vAxis": {"title": "Age Group"},
+				  "hAxis": {"title": "Staff By Gender"},
+				  "isStacked": true,
+					width: 1200,
+					height: 600,   
 				}
-			  },
-			  showTip: true,
-			  zoomLevel: 2,
-			  mapType: 'normal',
-			  useMapTypeControl:true
-			};
-			var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
-			var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, options, null);
-			mapQueryWrapper.sendAndDraw();
-					google.visualization.drawChart({
-					"containerId": "chart2",
-					"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C7&key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1252886937&headers=-1',
-					"chartType": "BarChart",
-					"options": {
-					  "title":"IRRI Gender Demographics",
-					  "vAxis": {"title": "Age Group"},
-					  "hAxis": {"title": "Staff By Gender"},
-					  "isStacked": true,
-						width: 1200,
-						height: 600,   
-					}
-					
-				  });	
-
+				
+			  });			  
 		}
+	
 
 
-	</script>
+	
+
+
+  
+        </script>
 </head>
-
 
 <br />
 	<div id="AgrReport" style='font-size: 0.85em;'> 
@@ -137,14 +166,28 @@
 							<td style='width: 90%; font-size: smaller;' valign="top">
 								<div id="tabs">
 									<ul>
-										<li><a href="#tabs-1">Map</a></li>
+										<li><a href="#tabs-1">Gendet By Nationality</a></li>
 										<li><a href="#tabs-2">Gender Chart</a></li>
 
 									</ul>
 									<div id="tabs-1">
 
-										<div id="MapNationality" ></div>								
-									</div>
+										<div id="MapNationality" ></div>
+										<div id="NationalityTables">
+											<table width='100%' >
+												<tr>
+
+													<td valign='top' style='width: 35%; font-size: smaller; padding-top: 2em'>
+														<div id="byCountry" style='font-size: 0.85em;' ></div>
+													</td>
+													<td valign='top' style='width: 65%; font-size: smaller; padding-top: 2em'>
+														<div id="AgeByCountry"  style='font-size: 0.85em;'></div>
+													</td>
+												</tr>
+											</table>
+										</div>										
+	
+										</div>
 									<div id="tabs-2">
 										<div id="chart2"></div>
 									</div>								
