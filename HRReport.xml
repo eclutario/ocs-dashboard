@@ -31,7 +31,8 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/redmond/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-	<script type="text/javascript"  src="https://sites.google.com/a/irri.org/ocs-dashboard-dev/DashboardWrapper.js"></script>
+    <script type="text/javascript" src="https://sites.google.com/a/irri.org/ocs-dashboard/filters.js"></script>
+    <script type="text/javascript" src="https://sites.google.com/a/irri.org/ocs-dashboard/HRDashboardWrapper.js"></script>
 	<style type='text/css'>
 		.infowindow {
 			 font-family: sans-serif;
@@ -49,10 +50,8 @@
 			 border: 1px solid Gray;
 		}
 	</style>
-	<script type="text/javascript">
-		google.load('visualization', '1.1', { packages: ['controls', 'corechart','map','table'] });
-	</script>
-	<script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+ 	<script>
 		$(document).ready(function() {
 			$('#AgrReport').css('font-size', '.8em');
 			$( "#tabs" ).tabs({
@@ -71,15 +70,99 @@
 		
 		});
 	</script>
-    <script type="text/javascript">
-		var motionChart;
-		var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765';
+
+
+
+
+	<script type="text/javascript">
+		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart','map'] });
+	</script>
+     <script type="text/javascript">
+
+	var motionChart;
+    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765';
+
+	//var query;
+	//var tableWrapper;
+	//var queryWrapper;
+	//var selectedBusAEC;
 
 		
-		google.setOnLoadCallback(function() { InitGraphs(); });
-	 
+	google.setOnLoadCallback(function() { InitChartDashboard(); });
+ 
+    function InitChartDashboard()
+	{
+        InitGraphs();
+			var data = google.visualization.arrayToDataTable([
+				['Filter'],
+				['Age Group By Resource Type and Gender' ],
+				['Age Group By Employment Contract and Gender'],
+                ['Age Group By Job Level'],
+				['Age Group By Nationality']
 
-			
+			  ]);
+			var filterdashboard = new google.visualization.Dashboard(
+					document.getElementById('filterDashboard'));
+			var filterCategory = new google.visualization.ControlWrapper({
+				'controlType': 'CategoryFilter',
+				'containerId': 'category',
+				'options': {
+					'filterColumnLabel': 'Filter',
+					'ui': {
+						'label': 'Choose Category',
+						'labelStacking': 'vertical',
+						'allowTyping': false,
+						'allowMultiple': false
+					},
+					'state': { 'selectedValues': ['Age Group By Resource Type and Gender'] }
+				}
+			});	
+			var tableChart = new google.visualization.ChartWrapper({
+			  'chartType': 'Table',
+			  'containerId': 'tableCategory'
+			});
+			google.visualization.events.addListener(filterCategory, 'statechange', function () {
+					var state = filterCategory.getState();
+					drawAgeGroupDashboard(state.selectedValues[0]);
+				});
+
+//			});
+		    filterdashboard.bind(filterCategory, tableChart);
+
+        // Draw the dashboard.
+		    filterdashboard.draw(data);
+		    drawAgeGroupDashboard('Age Group By Resource Type and Gender');
+	}
+	
+
+    function drawDashboard(filter)
+    {
+        var otherQuery;		
+        otherQuery && otherQuery.abort();			
+        otherQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=505475375");
+        otherQuery.setQuery("select R, SUM(Y)  where   I <> '99999' and (G like 'GRS' or G like 'NRS') GROUP BY R PIVOT G,N");
+        //var otherChart = new google.visualization.PieChart(document.getElementById('piechartDiv'));
+        var options = {
+            title: "Age Group By Resource Type and Gender",
+            height: 400,
+            bar: {groupWidth: "50%"},
+            isStacked: true,
+            hAxis: { title: 'Age Group' },
+            vAxis: { title: '# of Staff' }
+        }
+		
+
+        var otherChart = new google.visualization.ChartWrapper({
+            'chartType': 'ColumnChart',
+            'containerId': 'piechartDiv',
+            'options': options
+        });
+
+        var otherWrapper = new DashboardWrapper(otherQuery, otherChart, null, document.getElementById('pieChartDashboard'));
+        otherWrapper.sendAndDrawDashboard(null, getHRFilters());
+    }
+
+		
 	function InitGraphs()
 	{
  		
@@ -140,7 +223,7 @@
 				}
 				
 			  });			  
-		}
+	}
 	
 
 
@@ -148,26 +231,21 @@
 
 
   
-        </script>
+  </script>
 </head>
+
 
 <br />
 	<div id="AgrReport" style='font-size: 0.85em;'> 
 		<div id="dashboard">
 					<table width='100%'>
 						<tr>
-							<td style='width: 10%; font-size: smaller;' valign="top">
-								<div id="filters" style='font-size: 0.85em;'>
-									<div  id="nationalityFilter" ></div>
-									<div id="divisionFilter" ></div>
-									<div id="ouFilter" ></div>
-								</div>
-							</td>
 							<td style='width: 90%; font-size: smaller;' valign="top">
 								<div id="tabs">
 									<ul>
-										<li><a href="#tabs-1">Gendet By Nationality</a></li>
+										<li><a href="#tabs-1">Gender By Nationality</a></li>
 										<li><a href="#tabs-2">Gender Chart</a></li>
+										<li><a href="#tabs-3">Age Group Chart</a></li>
 
 									</ul>
 									<div id="tabs-1">
@@ -191,6 +269,18 @@
 									<div id="tabs-2">
 										<div id="chart2"></div>
 									</div>								
+									<div id="tabs-3">
+										<div id="filterDashboard">
+											<div id="category"></div>
+										  <div id="tableCategory" style="display:none"></div>	
+										</div>
+										<div id="pieChartDashboard">
+										  <!--Divs that will hold each control and chart-->
+                                            <p>&nbsp;</p>
+                                            <div id="ouFilter"></div>
+											<div id="piechartDiv"></div>
+										</div>
+									</div>										
 							</td>
 						</tr>
 
@@ -204,7 +294,7 @@
 		<div id="dialog" style='font-size: 0.85em;'>
 			
 		</div>	
-	</div>
+
 
    
    ]]>
