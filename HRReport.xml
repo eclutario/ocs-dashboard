@@ -31,7 +31,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/redmond/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="https://sites.google.com/a/irri.org/ocs-dashboard/filters.js"></script>
+    <script type="text/javascript" src="filters.js"></script>
     <script type="text/javascript" src="https://sites.google.com/a/irri.org/ocs-dashboard/HRDashboardWrapper.js"></script>
 	<style type='text/css'>
 		.infowindow {
@@ -75,17 +75,12 @@
 
 
 	<script type="text/javascript">
-		google.load('visualization', '1.1', { packages: ['controls', 'corechart','table','motionchart','map'] });
+        google.load('visualization', '1.1', { packages: ['controls','table','map','corechart'] });
 	</script>
      <script type="text/javascript">
 
-	var motionChart;
-    var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765';
-
-	//var query;
-	//var tableWrapper;
-	//var queryWrapper;
-	//var selectedBusAEC;
+	var mapChart;
+	var dataSourceUrl = 'https://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1423601025';
 
 		
 	google.setOnLoadCallback(function() { InitChartDashboard(); });
@@ -93,45 +88,45 @@
     function InitChartDashboard()
 	{
         InitGraphs();
-			var data = google.visualization.arrayToDataTable([
-				['Filter'],
-				['Age Group By Resource Type and Gender' ],
-				['Age Group By Employment Contract and Gender'],
-                ['Age Group By Job Level'],
-				['Age Group By Nationality']
+		var data = google.visualization.arrayToDataTable([
+			['Filter'],
+			['Age Group By Resource Type and Gender' ],
+			['Age Group By Employment Contract and Gender'],
+            ['Age Group By Job Level'],
+			['Age Group By Nationality']
 
-			  ]);
-			var filterdashboard = new google.visualization.Dashboard(
-					document.getElementById('filterDashboard'));
-			var filterCategory = new google.visualization.ControlWrapper({
-				'controlType': 'CategoryFilter',
-				'containerId': 'category',
-				'options': {
-					'filterColumnLabel': 'Filter',
-					'ui': {
-						'label': 'Choose Category',
-						'labelStacking': 'vertical',
-						'allowTyping': false,
-						'allowMultiple': false
-					},
-					'state': { 'selectedValues': ['Age Group By Resource Type and Gender'] }
-				}
-			});	
-			var tableChart = new google.visualization.ChartWrapper({
-			  'chartType': 'Table',
-			  'containerId': 'tableCategory'
+			]);
+		var filterdashboard = new google.visualization.Dashboard(
+				document.getElementById('filterDashboard'));
+		var filterCategory = new google.visualization.ControlWrapper({
+			'controlType': 'CategoryFilter',
+			'containerId': 'category',
+			'options': {
+				'filterColumnLabel': 'Filter',
+				'ui': {
+					'label': 'Choose Category',
+					'labelStacking': 'vertical',
+					'allowTyping': false,
+					'allowMultiple': false
+				},
+				'state': { 'selectedValues': ['Age Group By Resource Type and Gender'] }
+			}
+		});	
+		var tableChart = new google.visualization.ChartWrapper({
+			'chartType': 'Table',
+			'containerId': 'tableCategory'
+		});
+		google.visualization.events.addListener(filterCategory, 'statechange', function () {
+				var state = filterCategory.getState();
+				drawAgeGroupDashboard(state.selectedValues[0]);
 			});
-			google.visualization.events.addListener(filterCategory, 'statechange', function () {
-					var state = filterCategory.getState();
-					drawAgeGroupDashboard(state.selectedValues[0]);
-				});
 
 //			});
-		    filterdashboard.bind(filterCategory, tableChart);
+		filterdashboard.bind(filterCategory, tableChart);
 
-        // Draw the dashboard.
-		    filterdashboard.draw(data);
-		    drawAgeGroupDashboard('Age Group By Resource Type and Gender');
+    // Draw the dashboard.
+		filterdashboard.draw(data);
+		//drawAgeGroupDashboard('Age Group By Resource Type and Gender');
 	}
 	
 
@@ -166,10 +161,10 @@
 	function InitGraphs()
 	{
  		
-		var motionQuery;
-		motionQuery && motionQuery.abort();		
-		motionQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select A,G where A <> ''");
-		var motionChart = new google.visualization.Map(document.getElementById('MapNationality'));
+		var mapQuery;
+		mapQuery && mapQuery.abort();		
+		mapQuery = new google.visualization.Query(dataSourceUrl + "&tq=Select B,C,F where A <> ''");
+		var mapChart = new google.visualization.Map(document.getElementById('MapNationality'));
 		var options = {
           icons: {
             default: {
@@ -181,7 +176,7 @@
 		  zoomLevel: 2,
 		  mapType: 'normal'
         };
-		var mapQueryWrapper =  new DashboardWrapper(motionQuery, motionChart, options, null);
+		var mapQueryWrapper =  new DashboardWrapper(mapQuery, mapChart, options, null);
 		mapQueryWrapper.sendAndDraw();
 		var cssClassNames = {
 			headerCell: 'mctableheader',
@@ -203,11 +198,6 @@
 		var byCountryWrapper =  new DashboardWrapper(countryQuery, byCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames}, null);
 		byCountryWrapper.sendAndDraw();
 		
-		//var pieChartQuery;
-		//pieChartQuery && pieChartQuery.abort();		
-		//pieChartQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=505475375");
-		//pieChartQuery.setQuery("select I,J,N,O, count(B) where   I <> '99999' group by I,J,N,O label count(B) 'Total'");
-		//var pieChart = new google.visualization.Map(document.getElementById('MapNationality'));
 		
  				google.visualization.drawChart({
 				"containerId": "chart2",
@@ -234,7 +224,7 @@
   </script>
 </head>
 
-
+<body>
 <br />
 	<div id="AgrReport" style='font-size: 0.85em;'> 
 		<div id="dashboard">
@@ -276,8 +266,8 @@
 										</div>
 										<div id="pieChartDashboard">
 										  <!--Divs that will hold each control and chart-->
-                                            <p>&nbsp;</p>
-                                            <div id="ouFilter"></div>
+                                            <br />
+                                            <div id="ouFilter"></div><br />
 											<div id="piechartDiv"></div>
 										</div>
 									</div>										
@@ -294,8 +284,6 @@
 		<div id="dialog" style='font-size: 0.85em;'>
 			
 		</div>	
-
-
    
    ]]>
   </Content>
