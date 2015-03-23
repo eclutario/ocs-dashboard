@@ -88,48 +88,49 @@
     function InitChartDashboard()
 	{
         InitGraphs();
-		var data = google.visualization.arrayToDataTable([
+        drawAgeAndGroupCharts();
+	}
+	
+    function drawAgeAndGroupCharts()
+    {
+        var data = google.visualization.arrayToDataTable([
 			['Filter'],
-			['Age Group By Resource Type and Gender' ],
+			['Age Group By Resource Type and Gender'],
 			['Age Group By Employment Contract and Gender'],
             ['Age Group By Job Level'],
 			['Age Group By Nationality']
 
-			]);
-		var filterdashboard = new google.visualization.Dashboard(
+        ]);
+        var filterdashboard = new google.visualization.Dashboard(
 				document.getElementById('filterDashboard'));
-		var filterCategory = new google.visualization.ControlWrapper({
-			'controlType': 'CategoryFilter',
-			'containerId': 'category',
-			'options': {
-				'filterColumnLabel': 'Filter',
-				'ui': {
-					'label': 'Choose Category',
-					'labelStacking': 'vertical',
-					'allowTyping': false,
-					'allowMultiple': false
-				},
-				'state': { 'selectedValues': ['Age Group By Resource Type and Gender'] }
-			}
-		});	
-		var tableChart = new google.visualization.ChartWrapper({
-			'chartType': 'Table',
-			'containerId': 'tableCategory'
-		});
-		google.visualization.events.addListener(filterCategory, 'statechange', function () {
-				var state = filterCategory.getState();
-				drawAgeGroupDashboard(state.selectedValues[0]);
-			});
+        var filterCategory = new google.visualization.ControlWrapper({
+            'controlType': 'CategoryFilter',
+            'containerId': 'category',
+            'options': {
+                'filterColumnLabel': 'Filter',
+                'ui': {
+                    'label': 'Choose Category',
+                    'labelStacking': 'vertical',
+                    'allowTyping': false,
+                    'allowMultiple': false
+                },
+                'state': { 'selectedValues': ['Age Group By Resource Type and Gender'] }
+            }
+        });
+        var tableChart = new google.visualization.ChartWrapper({
+            'chartType': 'Table',
+            'containerId': 'tableCategory'
+        });
+        google.visualization.events.addListener(filterCategory, 'statechange', function () {
+            var state = filterCategory.getState();
+            drawAgeGroupDashboard(state.selectedValues[0]);
+        });
 
-//			});
-		filterdashboard.bind(filterCategory, tableChart);
 
-    // Draw the dashboard.
-		filterdashboard.draw(data);
-		//drawAgeGroupDashboard('Age Group By Resource Type and Gender');
-	}
-	
+        filterdashboard.bind(filterCategory, tableChart);
 
+        filterdashboard.draw(data);
+    }
     function drawDashboard(filter)
     {
         var otherQuery;		
@@ -172,8 +173,8 @@
               selected: 'http://icons.iconarchive.com/icons/david-renelt/little-icon-people/32/Fat-icon.png'
             }
           },
-		  showTip: true,
-		  useMapTypeControl: true,
+          useMapTypeControl: true,
+          showTip: true,
 		  zoomLevel: 2,
 		  mapType: 'normal'
         };
@@ -182,40 +183,53 @@
 		var cssClassNames = {
 			headerCell: 'mctableheader',
 			tableCell: 'mctable'
-		};		
-		var ageByCountryQuery;		
-		ageByCountryQuery && ageByCountryQuery.abort();			
-		ageByCountryQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1548397318");
-		ageByCountryQuery.setQuery("select * Label A 'Age Group', B 'Country'");
-		var ageByCountryChart = new google.visualization.Table(document.getElementById('AgeByCountry'));
-		var ageByCountryWrapper =  new DashboardWrapper(ageByCountryQuery, ageByCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames}, null);
-		ageByCountryWrapper.sendAndDraw();
+		};
 
-		var countryQuery;		
-		countryQuery && countryQuery.abort();			
-		countryQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765");
-		countryQuery.setQuery("select A,B,C,D Label A 'Country'");
-		var byCountryChart = new google.visualization.Table(document.getElementById('byCountry'));
-		var byCountryWrapper =  new DashboardWrapper(countryQuery, byCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames}, null);
-		byCountryWrapper.sendAndDraw();
-		
-		
- 				google.visualization.drawChart({
-				"containerId": "chart2",
-				"dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C7&key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1252886937&headers=-1',
-				"chartType": "BarChart",
-				"options": {
-				  "title":"IRRI Gender Demographics",
-				  "vAxis": {"title": "Age Group"},
-				  "hAxis": {"title": "Staff By Gender"},
-				  "isStacked": true,
-					width: 1200,
-					height: 600,   
-				}
-				
-			  });			  
+		drawCountryChart(cssClassNames);
+		drawAgeByCountry(cssClassNames);
+    }
+
+	function drawCountryChart(cssClassNames)
+	{
+	    var countryQuery;
+	    countryQuery && countryQuery.abort();
+	    countryQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1936256765");
+	    countryQuery.setQuery("select A,B,C,D Label A 'Country'");
+	    var byCountryChart = new google.visualization.Table(document.getElementById('byCountry'));
+	    var byCountryWrapper = new DashboardWrapper(countryQuery, byCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames }, null);
+	    google.visualization.events.addListener(byCountryChart, 'ready', function () {
+
+	    });
+
+	    byCountryWrapper.sendAndDraw();
 	}
-	
+	function drawAgeByCountry(cssClassNames)
+	{
+	    var ageByCountryQuery;
+	    ageByCountryQuery && ageByCountryQuery.abort();
+	    ageByCountryQuery = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1548397318");
+	    ageByCountryQuery.setQuery("select * Label A 'Age Group', B 'Country'");
+	    var ageByCountryChart = new google.visualization.Table(document.getElementById('AgeByCountry'));
+	    var ageByCountryWrapper = new DashboardWrapper(ageByCountryQuery, ageByCountryChart, { allowHtml: true, 'cssClassNames': cssClassNames }, null);
+
+	    google.visualization.events.addListener(ageByCountryChart, 'ready', function () {
+	        google.visualization.drawChart({
+	            "containerId": "chart2",
+	            "dataSourceUrl": 'https://docs.google.com/a/irri.org/spreadsheet/tq?range=A1:C7&key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1252886937&headers=-1',
+	            "chartType": "BarChart",
+	            "options": {
+	                "title": "IRRI Gender Demographics",
+	                "vAxis": { "title": "Age Group" },
+	                "hAxis": { "title": "Staff By Gender" },
+	                "isStacked": true,
+	                width: 1200,
+	                height: 600,
+	            }
+
+	        });
+	    });
+	    ageByCountryWrapper.sendAndDraw();
+	}
 
 
 	
@@ -225,7 +239,7 @@
   </script>
 </head>
 
-<body>
+
 <br />
 	<div id="AgrReport" style='font-size: 0.85em;'> 
 		<div id="dashboard">
