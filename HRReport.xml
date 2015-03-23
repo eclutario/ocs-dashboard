@@ -173,6 +173,7 @@
             }
           },
 		  showTip: true,
+		  useMapTypeControl: true,
 		  zoomLevel: 2,
 		  mapType: 'normal'
         };
