@@ -283,10 +283,10 @@
 					<table width='100%'>
 						<tr>
 							<td style='width: 10%; font-size: smaller;' valign="top">
-								<div id="filters" style='font-size: 0.85em;'>
-									<div  id="donorFilter" ></div>
-									<div id="alertFilter" ></div>
-									<div id="periodFilter" ></div>
+								<div id="filters" style='font-size: 0.85em;padding-bottom:5px'>
+									<div  id="donorFilter" style='padding-bottom:5px'></div>
+									<div id="alertFilter"  style='padding-bottom:5px'></div>
+									<div id="periodFilter"  style='padding-bottom:5px'></div>
 								</div>
 							</td>
 							<td style='width: 90%; font-size: smaller;' valign="top">
