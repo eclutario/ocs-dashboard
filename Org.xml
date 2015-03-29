@@ -32,6 +32,7 @@
 				}
 				gadgetHelper = new google.visualization.GadgetHelper();
 				var domain = gadgets.util.getUrlParameters()['parent'].match(/.+\/a\/(.+)\/html/)[1];
+				alert(domain);
 				//var query = gadgetHelper.createQueryFromPrefs(prefs);
 				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1218808362");
 				var query = new google.visualization.Query("http://spreadsheets.google.com/tq?key=1Ha5wjKJxEfTxasTkDsrZ1EhmIMAD07wWMDdO7e86CYQ&gid=1218808362");
